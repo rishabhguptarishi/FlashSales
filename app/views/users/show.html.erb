@@ -1,5 +1,4 @@
-<p id="notice"><%= notice %></p>
-
+<h3>Your Details</h3>
 <p>
   <strong>Name:</strong>
   <%= @user.name %>
@@ -9,11 +8,3 @@
   <strong>Email:</strong>
   <%= @user.email %>
 </p>
-
-<p>
-  <strong>Password</strong>
-  <%= @user.password %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>

@@ -1,5 +1,4 @@
 class UserMailer < ApplicationMailer
-  default :from => "me@mydomain.com"
 
   def password_reset(user)
     @user = user

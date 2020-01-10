@@ -30,8 +30,6 @@
 yarn-debug.log*
 .yarn-integrity
 "sendgrid.env" 
-"sendgrid.env" 
-"sendgrid.env" 
 
 # Ignore application configuration
 /config/application.yml

@@ -4,9 +4,14 @@ Rails.application.routes.draw do
     post "login" => :create
     get "logout" => :destroy, as: "logout"
   end
-  resources :users do
-    get :confirm_email, on: :member
+  get 'users/:token/confirm_email', to: 'users#confirm_email', as: 'confirm_email'
+  resources :users
+  resources :password_reset, param: :token
+
+  namespace :admin do
+    resources :users
   end
-  resources :password_reset
+
+  root 'users#show', via: :all
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

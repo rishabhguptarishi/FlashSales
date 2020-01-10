@@ -24,6 +24,13 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'figaro', '~> 1.1', '>= 1.1.1'
 
+gem 'bootstrap', '~> 4.1.1'
+
+gem 'delayed_job_active_record'
+gem "daemons"
+
+gem 'kaminari'
+
 #gem 'bullet', '~> 5.7', '>= 5.7.5'
 
 # Use Active Storage variant
