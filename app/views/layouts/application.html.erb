@@ -10,6 +10,17 @@
   </head>
 
   <body>
-    <%= yield %>
+    <nav class="navbar navbar-dark bg-dark">
+      Flash Sales
+      <% if current_user %>
+        <%= button_to "Logout", logout_path, method: :get, class: "btn btn-outline-danger" %>
+      <% end %>
+    </nav>
+    <main class='<%= controller.controller_name%> container'>
+      <br>
+      <%= render "layouts/notice", notice: notice %>
+      <%= render "layouts/alert", notice: alert %>
+      <%= yield %>
+    </main>
   </body>
 </html>
