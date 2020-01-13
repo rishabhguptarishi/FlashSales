@@ -1,5 +1,7 @@
-require 'URI'
+# require 'URI'
 class User < ApplicationRecord
+#FIXME_AB: first validations, then associations, then callbacks
+
   belongs_to :role
   validates :name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -22,6 +24,7 @@ class User < ApplicationRecord
     public_send("#{column_name}_generated_at=", Time.current)
   end
 
+  #FIXME_AB: generate_token! this should save or exception
   def generate_token_bank(column_name)
     public_send("#{column_name}=", SecureRandom.urlsafe_base64.to_s)
     public_send("#{column_name}_generated_at=", Time.current)
@@ -30,6 +33,7 @@ class User < ApplicationRecord
 
   def send_password_reset
     generate_token_bank(:password_reset_token)
+    #FIXME_AB: don't pass object, pass object id
     UserMailer.delay.password_reset(self)
   end
 
@@ -38,6 +42,7 @@ class User < ApplicationRecord
   end
 
   private def send_verification_mail
+    #FIXME_AB: don't pass object, pass object id
     UserMailer.delay.registration_confirmation(self)
   end
 end

@@ -1,4 +1,5 @@
 <%= form_with(model: @user, local: true, url: password_reset_path(params[:token])) do |form| %>
+<% #FIXME_AB: partial -%>
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -11,6 +12,7 @@
     </div>
   <% end %>
 
+<% #FIXME_AB: in all forms indicate required fields with * -%>
   <div class="field">
     <%= form.label :password %>
     <%= form.password_field :password %>

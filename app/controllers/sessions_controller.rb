@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       if params[:remember_me] && user.generate_token_bank(:remember_me_token)
+        #FIXME_AB: sensitive info in cookie, cookie should be signed cookie
         cookies.permanent[:remember_me_token] = user.remember_me_token
       end
       redirect_to user_path(user.id), notice: 'Successfully logged in!'

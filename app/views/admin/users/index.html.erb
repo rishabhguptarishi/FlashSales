@@ -13,6 +13,7 @@
   </thead>
 
   <tbody>
+    <% #FIXME_AB: what if users list is blank? -%>
     <% @users.each do |user| %>
       <tr>
         <td><%= user.name %></td>
