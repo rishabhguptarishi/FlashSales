@@ -24,12 +24,17 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'figaro', '~> 1.1', '>= 1.1.1'
 
-gem 'bootstrap', '~> 4.1.1'
+gem "bootstrap", ">= 4.3.1"
 
-gem 'delayed_job_active_record'
+gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.4'
 gem "daemons"
 
-gem 'kaminari'
+gem 'kaminari', '~> 1.1', '>= 1.1.1'
+gem 'rails-i18n', '~> 6.0'
+
+gem 'aws-sdk', '~> 3.0', '>= 3.0.1'
+
+gem 'whenever', '~> 0.9.4'
 
 #gem 'bullet', '~> 5.7', '>= 5.7.5'
 

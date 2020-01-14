@@ -15,7 +15,7 @@ namespace :admin do
       user_params[:email] = args.extras[1]
       user_params[:password] = args.extras[2]
     end
-    Role.includes(:users).find_by(name: "admin").users.create!(user_params)
+    Role.find_by(name: "admin").users.create!(user_params)
   end
 
 end

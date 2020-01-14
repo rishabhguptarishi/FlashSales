@@ -1,12 +1,16 @@
-require 'URI'
+
 class User < ApplicationRecord
-  belongs_to :role
   validates :name, presence: true
-  validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password, presence: true, confirmation: true, length: {within: 6..30}
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, if: -> {email.present?}
+  validates :password, presence: true
+  validates :password, confirmation: true, length: {within: 6..30}, if: -> {password.present?}
+  belongs_to :role
   before_create -> { generate_token(:verification_token) }, unless: :is_admin?
   after_create_commit :send_verification_mail, unless: :is_admin?
   scope :verified, -> { where(verified: true) }
+  scope :customer, -> { where(role.name = 'customer') }
+  scope :admin, -> { where(role.name = 'admin') }
   has_secure_password
 
   def activate_account

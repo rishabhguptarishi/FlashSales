@@ -1,0 +1,41 @@
+<div class="container">
+
+  <div class="row">
+    <strong class="col-md-4">Title:</strong>
+    <span  class="col-md-8"><%= @deal.title %></span>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-4">Description:</strong>
+    <span  class="col-md-8"><%= @deal.description %></span>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-4">Price:</strong>
+    <span  class="col-md-8"><%= number_to_currency(@deal.price) %></span>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-4">Discounted Price:</strong>
+    <span  class="col-md-8"><%= number_to_currency(@deal.discounted_price) %></span>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-4">Quantity:</strong>
+    <span  class="col-md-8"><%= @deal.quantity %></span>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-4">Publish Date:</strong>
+    <span  class="col-md-8">
+      <% if @deal.published %>
+        <%= distance_of_time_in_words_to_now(@deal.publish_at) %>
+      <% else %>
+        <%= distance_of_time_in_words( Time.current, @deal.publish_at) %>
+      <% end %>
+    </span>
+  </div>
+</div>
+
+<%= link_to 'Edit', edit_admin_deal_path(@deal) %> |
+<%= link_to 'Back', admin_deals_path %>

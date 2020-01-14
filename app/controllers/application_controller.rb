@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   private def authorize
     if cookies[:remember_me_token]
-      @current_user = User.find_by(remember_me_token: cookies[:remember_me_token])
+      @current_user = User.find_by(remember_me_token: cookies.signed[:remember_me_token])
     else
       @current_user = User.find_by(id: session[:user_id])
     end

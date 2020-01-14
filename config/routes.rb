@@ -9,8 +9,11 @@ Rails.application.routes.draw do
   resources :password_reset, param: :token
 
   namespace :admin do
+    resources :deals
     resources :users
   end
+
+  resources :deals, only: [:show, :index]
 
   root 'users#show', via: :all
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
