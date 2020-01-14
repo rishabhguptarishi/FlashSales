@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
     if cookies[:remember_me_token]
       @current_user = User.find_by(remember_me_token: cookies[:remember_me_token])
     else
+      #FIXME_AB: you should fire this query if user_id is present in the session. Hence this 'else' shoudl be 'elseif'
       @current_user = User.find_by(id: session[:user_id])
     end
     unless @current_user

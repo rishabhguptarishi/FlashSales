@@ -1,6 +1,6 @@
 # require 'URI'
 class User < ApplicationRecord
-#FIXME_AB: first validations, then associations, then callbacks
+#FIXME_AB: first validations, then associations, then callbacks, then scopes
 
   belongs_to :role
   validates :name, presence: true
@@ -11,6 +11,7 @@ class User < ApplicationRecord
   scope :verified, -> { where(verified: true) }
   has_secure_password
 
+  #FIXME_AB: Since this method will save or raise exception, so name it as activate_account!
   def activate_account
     self.verified = true
     self.verification_token = nil

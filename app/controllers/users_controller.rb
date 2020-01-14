@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show]
+
+  #FIXME_AB: I think we should not show other user's info to user. So lets authorize user on the show page and show his own record, instead of taking user_id from params, take it from current_user
   skip_before_action :authorize, except: [:show]
 
   # GET /users/new

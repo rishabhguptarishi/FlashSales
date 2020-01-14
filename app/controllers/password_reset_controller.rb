@@ -1,7 +1,7 @@
 class PasswordResetController < ApplicationController
   skip_before_action :authorize
 
-  #FIXME_AB: before action to check that email was present
+  #FIXME_AB: before action to check that email was present in the request params
   def create
     user = User.find_by(email: params[:email])
     if user

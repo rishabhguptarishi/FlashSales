@@ -20,9 +20,11 @@ class SessionsController < ApplicationController
 
   def destroy
     reset_session
+    #FIXME_AB: you should extract the following code to delete cookies in loop in a private method
     YAML.load(ENV['cookies_to_be_deleted_on_logout']).each do |cookie|
       cookies.delete(cookie)
     end
+    #FIXME_AB: read about the difference between render and redirect
     redirect_to login_url, notice: "Logged Out"
   end
 end
