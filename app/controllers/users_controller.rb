@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     #FIXME_AB: User.customers.new . Use scopes
-    @user = User.new(user_params)
+    @user = User.customers.new(user_params)
     respond_to do |format|
       if @user.save
         format.html { redirect_to login_url, notice: "Please confirm your email address to continue" }
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      @user = @current_user
       #FIXME_AB: what if user not found
     end
 

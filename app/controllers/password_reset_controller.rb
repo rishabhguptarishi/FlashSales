@@ -26,7 +26,7 @@ class PasswordResetController < ApplicationController
   #FIXME_AB: before action to ensure password_reset_token was present
   def update
     @user = User.find_by(password_reset_token: params[:token])
-    if @user.update(password: params[:user][:password], password_confirmation: params[:user][:password_confirmation])
+    if @user.update(password: params[:user][:password], password_confirmation: params[:user][:password_confirmation], password_reset_token: null)
       #FIXME_AB: you should also nullify password_reset_token.
       redirect_to login_url, notice: "Password has been reset!"
     else
