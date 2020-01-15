@@ -1,7 +1,8 @@
 namespace :admin do
-  desc "create a new user admin"
+  desc "create a new user admin to run type rake admin:new[your_name,your_email,password]"
+
   task new: :environment do |task, args|
-    user_params = {verified: true}
+    user_params = {verified: true, verified_at: Time.current}
     if args.extras.count != 3
       puts "Invalid number of arguments passed please input the following details"
       puts "Enter a name:"
@@ -15,7 +16,7 @@ namespace :admin do
       user_params[:email] = args.extras[1]
       user_params[:password] = args.extras[2]
     end
-    Role.includes(:users).find_by(name: "admin").users.create!(user_params)
+    Role.admin.users.create!(user_params)
   end
 
 end

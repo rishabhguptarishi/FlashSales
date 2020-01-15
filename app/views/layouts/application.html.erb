@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>FlashSales</title>
+    <% #FIXME_AB: read about these two tags, important -%>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -19,7 +20,7 @@
     <main class='<%= controller.controller_name%> container'>
       <br>
       <%= render "layouts/notice", notice: notice %>
-      <%= render "layouts/alert", notice: alert %>
+      <%= render "layouts/alert", alert: alert %>
       <%= yield %>
     </main>
   </body>
