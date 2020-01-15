@@ -1,4 +1,8 @@
-<div class="container">
+<h2>Deal Details</h2>
+<div class="jumbotron">
+  <div class="row">
+    <%= button_to "Check Publishability", {action: "check_publishable", id: @deal.id}, remote: true, method: :get, id:"publishable_check", class: "btn btn-primary" %>
+  </div>
 
   <div class="row">
     <strong class="col-md-4">Title:</strong>
@@ -28,14 +32,19 @@
   <div class="row">
     <strong class="col-md-4">Publish Date:</strong>
     <span  class="col-md-8">
-      <% if @deal.published %>
-        <%= distance_of_time_in_words_to_now(@deal.publish_at) %>
-      <% else %>
-        <%= distance_of_time_in_words( Time.current, @deal.publish_at) %>
-      <% end %>
+      <%= @deal.publish_at %>
     </span>
   </div>
+
+  <% if @deal.images.any? %>
+    <ul>
+      <% @deal.images.each do |image| %>
+        <li><%= image_tag(image.image) %></li>
+      <% end %>
+    </ul>
+  <% end %>
 </div>
 
 <%= link_to 'Edit', edit_admin_deal_path(@deal) %> |
 <%= link_to 'Back', admin_deals_path %>
+<%= javascript_pack_tag 'publishable_ajax_call'%>

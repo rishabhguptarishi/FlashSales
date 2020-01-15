@@ -7,8 +7,9 @@
     <tbody>
       <% @deals.each do |deal| %>
       <tr>
-        <td>
-          <%= image_tag(deal.image_url, class: 'list_image') %>
+        <td><% if deal.images.any? %>
+          <%= image_tag(deal.images[0].image, class: 'list_image') %>
+          <% end %>
         </td>
         <td>
           <h1><%= deal.title %></h1>
@@ -27,7 +28,7 @@
         </td>
         <td>
           <ul>
-            <li><%= link_to 'Show', deal %></li>
+            <li><%= link_to 'Show', admin_deal_path(deal) %></li>
             <li><%= link_to 'Edit', edit_admin_deal_path(deal) %></li>
           </ul>
         </td>
@@ -37,7 +38,3 @@
     </tbody>
   </table>
 <% end %>
-
-<br>
-
-<%= link_to 'New Deal', new_admin_deal_path %>

@@ -1,7 +1,11 @@
 class Deal < ApplicationRecord
   validates :title, :description, :price, :discounted_price, :quantity, :publish_at, presence: true
+  validates :title, uniqueness: { case_sensitive: false}, if: -> { title.present? }
+  validates :quantity, numericality: { only_integer: true}, if: -> { quantity.present? }
+  validates_with DiscountPriceValidator
   validates_with PublishDateValidator
-  has_many_attached :images
+  has_many :images
+  accepts_nested_attributes_for :images, allow_destroy: true
   scope :publishable, -> { where(publishable: true) }
   scope :live_deals, -> { where(live: true) }
 

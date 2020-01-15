@@ -1,0 +1,39 @@
+<h1>Deals</h1>
+
+<% if @deals.empty? %>
+  <h3> There are no deals created right now</h3>
+<% else %>
+  <table>
+    <tbody>
+      <% @deals.each do |deal| %>
+      <tr>
+        <td><% if deal.images.any? %>
+          <%= image_tag(deal.images[0].image) %>
+          <% end %>
+        </td>
+        <td>
+          <h1><%= deal.title %></h1>
+          <p>
+            <%= truncate(strip_tags(deal.description),
+            length: 80) %>
+          </p>
+        </td>
+        <td>
+          <p>
+            <%= number_to_currency(deal.price) %>
+          </p>
+          <p>
+            <%= number_to_currency(deal.discounted_price) %>
+          </p>
+        </td>
+        <td>
+          <ul>
+            <li><%= link_to 'Show', deal %></li>
+          </ul>
+        </td>
+      </tr>
+      <% end %>
+
+    </tbody>
+  </table>
+<% end %>

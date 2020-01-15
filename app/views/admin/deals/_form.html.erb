@@ -32,18 +32,11 @@
   </div>
 
   <div class="form-group", id="imagesGroup">
-    <div class="input-group mb-3", id="imageInput">
-      <div class="custom-file">
-        <%= form.file_field :images, class:"custom-file-input" %>
-        <%= form.label :images, "Choose an image to be uploaded", class:"custom-file-label" %>
-      </div>
-      <div class="input-group-append">
-        <span class="input-group-text" id="">Upload</span>
-      </div>
-    </div>
+    <%= form.fields_for :images do |image| %>
+      <%= render 'image', image: image %>
+    <% end %>
   </div>
-  <%= button_to "Add More Images..", "",class:"btn btn-secondary", data: { image: "add-more-images" } %>
-  <%= javascript_pack_tag 'add_images_to_form' %>
-
-  <%= form.submit "Create Deal", class:"btn btn-primary" %>
+  <%= link_to "Add More Images..", "",class:"btn btn-secondary", data: { image: "add-more-images" } %>
+  <%= form.submit "Submit Deal", class:"btn btn-primary" %>
 <% end %>
+<%= javascript_pack_tag 'add_images_to_form' %>

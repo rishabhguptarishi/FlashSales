@@ -9,12 +9,14 @@ Rails.application.routes.draw do
   resources :password_reset, param: :token
 
   namespace :admin do
-    resources :deals
+    resources :deals do
+      get 'check_publishable' => 'deals#check_publishable', on: :member
+    end
     resources :users
   end
 
   resources :deals, only: [:show, :index]
 
-  root 'users#show', via: :all
+  root 'deals#index', via: :all
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

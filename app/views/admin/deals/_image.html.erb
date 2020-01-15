@@ -1,11 +1,13 @@
-<%= form.fields_for :images do |image| %>
-<div class="input-group mb-3", id="imageInput">
-  <div class="custom-file">
-    <%= form.file_field :images, class:"custom-file-input" %>
-    <%= form.label :images, "Choose an image to be uploaded", class:"custom-file-label" %>
+
+  <% if image.object.persisted? %>
+  <div>
+    <%= image_tag image.object.image %>
+    <%= image.check_box :_destroy %>
+    <%= image.label :delete %>
   </div>
-  <div class="input-group-append">
-    <span class="input-group-text" id="">Upload</span>
+ <% else %>
+  <div class="custom-file" data-input-image="input_fields">
+    <%= image.file_field :image, class:"custom-file-input" %>
+    <%= image.label :image, "Choose an image to be uploaded", class:"custom-file-label" %>
   </div>
-</div>
-<% end %>
+ <% end %>

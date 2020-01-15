@@ -1,14 +1,15 @@
+<h2>Set New Password</h2>
 <%= form_with(model: @user, local: true, url: password_reset_path(params[:token])) do |form| %>
   <%= render "layouts/errors", errors: @user.errors %>
 
-  <div class="field">
+  <div class="form-group row">
     <%= form.label :password %>
-    <%= form.password_field :password %>
+    <%= form.password_field :password, class:"form-control" %>
   </div>
 
-  <div class="field">
+  <div class="form-group row">
     <%= form.label :password_confirmation %>
-    <%= form.password_field :password_confirmation %>
+    <%= form.password_field :password_confirmation, class:"form-control" %>
   </div>
 
   <div class="actions">

@@ -1,17 +1,19 @@
 <section class='flashsale-form'>
   <%= form_tag do %>
     <h2>Please Log In</h2><br>
-    <div class="field row">
-      <%= label_tag :email, 'Email:', class: "col-md-4" %>
-      <%= email_field_tag (:email),"", class: "col-md-8" %>
+    <div class="form-group row">
+      <%= label_tag :email, 'Email:' %>
+      <%= email_field_tag (:email),"", class:"form-control" %>
     </div>
-    <div class="field row">
-      <%= label_tag :password, 'Password:', class:"col-md-4" %>
-      <%= password_field_tag :password, "", class: "col-md-8" %>
+    <div class="form-group row">
+      <%= label_tag :password, 'Password:' %>
+      <%= password_field_tag :password, "", class:"form-control" %>
     </div>
-    <div class="checkbox_field row">
-      <%= check_box_tag :remember_me, 1,"", class:"col-md-1" %>
-      <%= label_tag :remember_me, 'Remember Me', class:"col-md-4" %>
+    <div class="form-group row">
+      <div class="custom-control custom-checkbox">
+        <%= check_box_tag :remember_me, 1,"", class:"custom-control-input" %>
+        <%= label_tag :remember_me, 'Remember Me', class:"custom-control-label" %>
+      </div>
     </div>
     <br>
     <div class="actions">

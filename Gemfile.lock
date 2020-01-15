@@ -58,8 +58,6 @@ GEM
       zeitwerk (~> 2.2)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-    autoprefixer-rails (9.7.3)
-      execjs
     aws-eventstream (1.0.3)
     aws-partitions (1.263.0)
     aws-sdk (3.0.1)
@@ -958,10 +956,6 @@ GEM
     bindex (0.8.1)
     bootsnap (1.4.5)
       msgpack (~> 1.0)
-    bootstrap (4.4.1)
-      autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 1.14.3, < 2)
-      sassc-rails (>= 2.0.0)
     builder (3.2.4)
     byebug (11.0.1)
     capybara (3.30.0)
@@ -983,7 +977,6 @@ GEM
       activerecord (>= 3.0, < 6.1)
       delayed_job (>= 3.0, < 5)
     erubi (1.9.0)
-    execjs (2.7.0)
     ffi (1.11.3)
     ffi (1.11.3-x64-mingw32)
     figaro (1.1.1)
@@ -1028,7 +1021,6 @@ GEM
       mini_portile2 (~> 2.4.0)
     nokogiri (1.10.7-x64-mingw32)
       mini_portile2 (~> 2.4.0)
-    popper_js (1.14.5)
     public_suffix (4.0.3)
     puma (4.3.1)
       nio4r (~> 2.0)
@@ -1131,7 +1123,6 @@ DEPENDENCIES
   aws-sdk (~> 3.0, >= 3.0.1)
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)
-  bootstrap (>= 4.3.1)
   byebug
   capybara (>= 2.15)
   daemons

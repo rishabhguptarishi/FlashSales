@@ -24,8 +24,6 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'figaro', '~> 1.1', '>= 1.1.1'
 
-gem "bootstrap", ">= 4.3.1"
-
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.4'
 gem "daemons"
 
