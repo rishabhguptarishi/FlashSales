@@ -1,11 +1,11 @@
 namespace :admin do
   #FIXME_AB: in the description write an example how to run this rake task with command line arguments.
-  desc "create a new user admin"
+  desc "create a new user admin to run type rake admin:new[your_name,your_email,password]"
 
   #FIXME_AB: read why we need to write :environment in the task below
   task new: :environment do |task, args|
     #FIXME_AB: Since admin is by default verified if created by rake task, set verified_at also
-    user_params = {verified: true}
+    user_params = {verified: true, verified_at: Time.current}
     if args.extras.count != 3
       puts "Invalid number of arguments passed please input the following details"
       puts "Enter a name:"
@@ -19,10 +19,8 @@ namespace :admin do
       user_params[:email] = args.extras[1]
       user_params[:password] = args.extras[2]
     end
-
-
     #FIXME_AB: here includes is not useful. Better something like Role.admin.users.create...
-    Role.includes(:users).find_by(name: "admin").users.create!(user_params)
+    User.admin.create!(user_params)
   end
 
 end

@@ -5,7 +5,7 @@ module Admin
   # GET /users
   # GET /users.json
   def index
-    @users = User.order(:name).page(params[:page])
+    @users = User.all_except(current_user).page(params[:page])
   end
 
   # GET /users/1

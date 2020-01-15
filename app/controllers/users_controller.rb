@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show]
+  before_action :ensure_token_exists, only: [:confirm_email]
 
   #FIXME_AB: I think we should not show other user's info to user. So lets authorize user on the show page and show his own record, instead of taking user_id from params, take it from current_user
   skip_before_action :authorize, except: [:show]
@@ -36,15 +37,21 @@ class UsersController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = @current_user
-      #FIXME_AB: what if user not found
+  private def ensure_token_exists
+    unless params[:token]
+      redirect_to login_url, alert: "Invalid token passed"
     end
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
-    end
+
+  # Use callbacks to share common setup or constraints between actions.
+  private def set_user
+    @user = current_user
+    #FIXME_AB: what if user not found
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  private def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
 end

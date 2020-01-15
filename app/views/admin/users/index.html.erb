@@ -1,26 +1,28 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Users</h1>
 <%= paginate @users %>
-<table class="table table-hover">
-  <thead class="thead-dark">
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Verified</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% #FIXME_AB: what if users list is blank? -%>
-    <% @users.each do |user| %>
+<% if @users.any? %>
+  <table class="table table-hover">
+    <thead class="thead-dark">
       <tr>
-        <td><%= user.name %></td>
-        <td><%= user.email %></td>
-        <td><%= user.verified %></td>
-        <td><%= link_to 'Show', user %></td>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Verified</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% #FIXME_AB: what if users list is blank? -%>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.verified %></td>
+          <td><%= link_to 'Show', user %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <h4>There are no users</h4>
+<% end %>
