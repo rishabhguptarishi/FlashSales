@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :authorize, :set_layout
+  skip_before_action :authorize
 
   def new
   end
@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       if params[:remember_me] && user.generate_token!(:remember_me_token)
         cookies.signed.permanent[:remember_me_token] = user.remember_me_token
       end
-      redirect_to deal_path, notice: 'Successfully logged in!'
+      redirect_to deals_path, notice: 'Successfully logged in!'
     else
       redirect_to login_url, alert: 'Invalid email/password combination and please make sure your account is verified'
     end

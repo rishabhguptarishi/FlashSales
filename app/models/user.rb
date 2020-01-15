@@ -16,7 +16,7 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  def activate_account
+  def activate_account!
     self.verified = true
     self.verification_token = nil
     self.verification_token_generated_at = nil

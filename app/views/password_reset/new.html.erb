@@ -2,7 +2,7 @@
 <%= form_tag password_reset_index_path, method: :post do %>
 
   <div class="form-group row">
-    <%= label_tag :email %>
+    <%= label_tag :email, "Email Id",class:"required" %>
     <%= email_field_tag :email, params[:email], class:"form-control" %>
   </div>
   <small>Enter email on which password reset link will be sent</small>

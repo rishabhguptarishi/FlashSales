@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :authorize, :set_layout
+  before_action :authorize
   helper_method :current_user
 
   def current_user
@@ -14,12 +14,6 @@ class ApplicationController < ActionController::Base
     end
     unless @current_user
       redirect_to login_url, alert: "Please login"
-    end
-  end
-
-  private def set_layout
-    if @current_user.is_admin?
-      self.class.layout 'admin'
     end
   end
 end

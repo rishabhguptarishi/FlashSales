@@ -14,7 +14,6 @@ module Admin
     end
 
     def create
-      debugger
       @deal = Deal.new(deal_params)
       if @deal.can_be_published?
         @deal.publishable = true
@@ -23,7 +22,8 @@ module Admin
         if @deal.save
           format.html { redirect_to admin_deals_path, notice: "Deal has been generated will go live at #{@deal.publish_at.to_date}" }
         else
-          format.html { render 'new', alert: "Ooooppss, something went wrong!" }
+          flash.now[:alert] = "Ooooppss, something went wrong!"
+          format.html { render 'new' }
         end
       end
     end

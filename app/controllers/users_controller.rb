@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show]
-  skip_before_action :authorize, :set_layout, except: [:show]
+  skip_before_action :authorize, except: [:show]
   before_action :ensure_token_exists, only: [:confirm_email]
 
 
@@ -20,14 +20,14 @@ class UsersController < ApplicationController
       if @user.save
         format.html { redirect_to login_url, notice: "Please confirm your email address to continue" }
       else
-        format.html { render 'new', alert: "Ooooppss, something went wrong!" }
+        format.html { render 'new' , alert: "Some error occurred" }
       end
     end
   end
 
   def confirm_email
     user = User.find_by(verification_token: params[:token])
-    if user && user.activate_account
+    if user && user.activate_account!
       redirect_to login_url, notice: "Welcome to the Sample App! Your email has been confirmed.Please sign in to continue."
     else
       redirect_to login_url, alert: "Sorry. User does not exist"
@@ -35,13 +35,10 @@ class UsersController < ApplicationController
   end
 
   private def ensure_token_exists
-    unless params[:token]
+    if params[:token].blank?
       redirect_to login_url, alert: "Invalid token passed"
     end
   end
-
-
-
     # Use callbacks to share common setup or constraints between actions.
   private def set_user
     @user = current_user

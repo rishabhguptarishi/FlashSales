@@ -1,4 +1,11 @@
+.required:after {
+  content: "*";
+  color: red;
+}
 body{
+  main{
+    margin: 2%;
+  }
   .sessions {
     .flashsale-form {
       width: 50%;
