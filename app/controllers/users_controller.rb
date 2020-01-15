@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show]
   skip_before_action :authorize, :set_layout, except: [:show]
+  before_action :ensure_token_exists, only: [:confirm_email]
+
 
   # GET /users/new
   def new
@@ -32,14 +34,21 @@ class UsersController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = current_user
+  private def ensure_token_exists
+    unless params[:token]
+      redirect_to login_url, alert: "Invalid token passed"
     end
+  end
+
+
+
+    # Use callbacks to share common setup or constraints between actions.
+  private def set_user
+    @user = current_user
+  end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
-    end
+  private def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
 end
