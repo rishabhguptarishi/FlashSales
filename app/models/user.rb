@@ -9,8 +9,7 @@ class User < ApplicationRecord
   before_create -> { generate_token(:verification_token) }, unless: :is_admin?
   after_create_commit :send_verification_mail, unless: :is_admin?
   scope :verified, -> { where(verified: true) }
-  scope :customer, -> { where(role.name = 'customer') }
-  scope :admin, -> { where(role.name = 'admin') }
+
   has_secure_password
 
   def activate_account

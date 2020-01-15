@@ -1,27 +1,27 @@
 <%= form_with(model: user, local: true) do |form| %>
   <%= render "layouts/errors", errors: user.errors %>
 
-  <div class="field">
+  <div class="form-group row">
     <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, class:"form-control" %>
   </div>
 
-  <div class="field">
+  <div class="form-group row">
     <%= form.label :email %>
-    <%= form.email_field :email %>
+    <%= form.email_field :email, class:"form-control" %>
   </div>
 
-  <div class="field">
+  <div class="form-group row">
     <%= form.label :password %>
-    <%= form.password_field :password %>
+    <%= form.password_field :password, class:"form-control" %>
   </div>
 
-  <div class="field">
+  <div class="form-group row">
     <%= form.label :password_confirmation %>
-    <%= form.password_field :password_confirmation %>
+    <%= form.password_field :password_confirmation, class:"form-control" %>
   </div>
 
   <div class="actions">
-    <%= form.submit "Signup" %>
-  </div>
+    <%= form.submit "Signup", class:"btn btn-success" %>
+  </div><br>
 <% end %>

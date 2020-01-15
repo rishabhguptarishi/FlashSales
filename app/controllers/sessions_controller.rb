@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :authorize
+  skip_before_action :authorize, :set_layout
 
   def new
   end

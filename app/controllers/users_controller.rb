@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show]
-  skip_before_action :authorize, except: [:show]
+  skip_before_action :authorize, :set_layout, except: [:show]
 
   # GET /users/new
   def new
-    @user = User.new
+    @user = Role.customer.users.new
   end
 
   def show
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.customer.new(user_params)
+    @user = Role.customer.users.new(user_params)
     respond_to do |format|
       if @user.save
         format.html { redirect_to login_url, notice: "Please confirm your email address to continue" }

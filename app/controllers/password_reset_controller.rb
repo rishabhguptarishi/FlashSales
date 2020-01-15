@@ -1,5 +1,5 @@
 class PasswordResetController < ApplicationController
-skip_before_action :authorize
+skip_before_action :authorize, :set_layout
   def create
     user = User.find_by(email: params[:email])
     if user
