@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     #FIXME_AB: User.customers.new . Use scopes
-    @user = User.customers.new(user_params)
+    @user = Role.customer.users.new(user_params)
     respond_to do |format|
       if @user.save
         format.html { redirect_to login_url, notice: "Please confirm your email address to continue" }

@@ -20,7 +20,7 @@ namespace :admin do
       user_params[:password] = args.extras[2]
     end
     #FIXME_AB: here includes is not useful. Better something like Role.admin.users.create...
-    User.admin.create!(user_params)
+    Role.admin.users.create!(user_params)
   end
 
 end
