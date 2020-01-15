@@ -16,7 +16,6 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    #FIXME_AB: User.customers.new . Use scopes
     @user = Role.customer.users.new(user_params)
     respond_to do |format|
       if @user.save
@@ -28,7 +27,6 @@ class UsersController < ApplicationController
   end
 
   def confirm_email
-    #FIXME_AB: ensure verification_token exists by before action
     user = User.find_by(verification_token: params[:token])
     if user && user.activate_account
       redirect_to login_url, notice: "Welcome to the Sample App! Your email has been confirmed.Please sign in to continue."
@@ -38,6 +36,7 @@ class UsersController < ApplicationController
   end
 
   private def ensure_token_exists
+    #FIXME_AB: use present or blank
     unless params[:token]
       redirect_to login_url, alert: "Invalid token passed"
     end
@@ -47,7 +46,6 @@ class UsersController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   private def set_user
     @user = current_user
-    #FIXME_AB: what if user not found
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

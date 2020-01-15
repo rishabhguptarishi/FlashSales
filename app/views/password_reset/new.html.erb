@@ -5,8 +5,8 @@
     <%= label_tag :email %>
     <%= email_field_tag :email, params[:email], class:"form-control" %>
   </div>
-  <small>Enter email on which password reset link will be sent</small>
+
+  <small>Enter email which you used to signup</small>
   <div class="actions"><%= submit_tag "Reset Password" %></div>
 <% end %>
 
-<% #FIXME_AB: page title and action hint for user -%>
