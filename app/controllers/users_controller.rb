@@ -4,7 +4,6 @@ class UsersController < ApplicationController
   before_action :ensure_token_exists, only: [:confirm_email]
 
 
-  # GET /users/new
   def new
     @user = Role.customer.users.new
   end
@@ -12,15 +11,14 @@ class UsersController < ApplicationController
   def show
   end
 
-  # POST /users
-  # POST /users.json
   def create
     @user = Role.customer.users.new(user_params)
     respond_to do |format|
       if @user.save
         format.html { redirect_to login_url, notice: "Please confirm your email address to continue" }
       else
-        format.html { render 'new' , alert: "Some error occurred" }
+        #FIXME_AB: this alert wont be displayed
+        format.html { render 'new' , alert: "Could not save the record, please fix errors below." }
       end
     end
   end
