@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: roles
+#
+#  id   :bigint           not null, primary key
+#  name :string(255)
+#
+
 class Role < ApplicationRecord
 
   ROLES = {
