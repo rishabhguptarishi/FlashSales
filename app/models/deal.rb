@@ -5,8 +5,8 @@
 #  id               :bigint           not null, primary key
 #  title            :string(255)
 #  description      :string(255)
-#  price            :decimal(14, 2)
-#  discounted_price :decimal(14, 2)
+#  price            :decimal(14, 2)   default(0.0)
+#  discounted_price :decimal(14, 2)   default(0.0)
 #  quantity         :integer
 #  publish_at       :datetime
 #  publishable      :boolean          default(FALSE)
@@ -21,23 +21,30 @@
 class Deal < ApplicationRecord
   validates :title, :description, :price, :discounted_price, :quantity, :publish_at, presence: true
   validates :title, uniqueness: { case_sensitive: false}, if: -> { title.present? }
-  validates :quantity, numericality: { only_integer: true}, if: -> { quantity.present? }
+  validates :quantity, numericality: { only_integer: true, greater_than_or_equal_to: 0}, if: -> { quantity.present? }
+  validates :price, numericality: { greater_than: 0}, if: -> { price.present? }
   validates_with DiscountPriceValidator
   validates_with PublishDateValidator
+  validates_with DealPublishedValidator
 
-  #FIXME_AB: if a deal is published by cron, can not be marked as published
-
-  #FIXME_AB: dependent option
-  has_many :images
+  has_many :images, as: :imageable, dependent: :destroy
 
   accepts_nested_attributes_for :images, allow_destroy: true
 
+  after_save :set_publishabhle!
+
   scope :publishable, -> { where(publishable: true) }
   scope :live_deals, -> { where(live: true) }
+  scope :scheduled_to_go_live_today, -> { where(publish_at: Time.current.at_beginning_of_day..Time.current.at_end_of_day) }
 
   def can_be_published?
     publishable || (has_minimum_images && has_minimum_quantity && max_deals_for_day_not_reached)
   end
+
+  def set_publishabhle!
+    update_column(:publishable, can_be_published?)
+  end
+
 
   private def has_minimum_images
     images.count >= ENV['minimum_images_required_for_deals'].to_i
@@ -48,9 +55,7 @@ class Deal < ApplicationRecord
   end
 
   private def max_deals_for_day_not_reached
-    #FIXME_AB: Deal.find_by => self.class.find_by
-    #FIXME_AB: use between
-    Deals.find_by( publish_at: self.publish_at ).count < ENV['max_of_deals_for_a_day'].to_i
+    self.class.where( publish_at: publish_at.at_beginning_of_day..publish_at.at_end_of_day ).count < ENV['max_of_deals_for_a_day'].to_i
   end
 
 end

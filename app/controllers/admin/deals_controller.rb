@@ -1,9 +1,9 @@
 module Admin
   class DealsController < AdminController
-    before_action :set_deal, only: [:show, :edit, :update]
+    before_action :set_deal, only: [:show, :edit, :update, :check_publishable]
 
     def index
-      @deals = Deal.all.includes(:images)
+      @deals = Deal.all.includes(:images).page(params[:page])
       #FIXME_AB: paginated list
     end
 
@@ -11,26 +11,20 @@ module Admin
     end
 
     def new
-      #FIXME_AB: fix
-      @deal = Deal.new(publish_at: ENV['deal_publish_time'])
-      #FIXME_AB: no need for () if no  arguments passed to build
-      @deal.images.build()
+      @deal = Deal.new
+      @deal.images.build
     end
 
     def create
       @deal = Deal.new(deal_params)
-
-      #FIXME_AB: this should be after save callback
-
-      if @deal.can_be_published?
-        @deal.publishable = true
-      end
-
       respond_to do |format|
         if @deal.save
           format.html { redirect_to admin_deals_path, notice: "Deal has been saved and will go live at #{@deal.publish_at.to_date}" }
         else
           flash.now[:alert] = "Could not save deal, please fix errors below"
+          if @deal.images.blank?
+            @deal.images.build
+          end
           format.html { render 'new' }
         end
       end
@@ -41,10 +35,6 @@ module Admin
     end
 
     def update
-      if @deal.can_be_published?
-        @deal.publishable = true
-      end
-
       respond_to do |format|
         if @deal.update(deal_params)
           format.html { redirect_to admin_deals_path, notice: "Deal has been updated" }
@@ -55,9 +45,7 @@ module Admin
     end
 
     def check_publishable
-      #FIXME_AB: before action
-      deal = Deal.find_by(id: params[:id])
-      response = deal.can_be_published?
+      response = @deal.can_be_published?
       respond_to do |format|
         format.json { render json: response }
       end

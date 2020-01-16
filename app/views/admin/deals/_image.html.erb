@@ -1,5 +1,4 @@
-
-  <% if image.object.persisted? %>
+<% if image.object.persisted? %>
   <div>
     <%= image_tag image.object.image %>
     <%= image.check_box :_destroy %>
@@ -7,7 +6,6 @@
   </div>
  <% else %>
   <div class="custom-file" data-input-image="input_fields">
-    <%= image.file_field :image, class:"custom-file-input" %>
-    <%= image.label :image, "Choose an image to be uploaded", class:"custom-file-label" %>
+    <%= image.file_field :image, class:"file-input" %>
   </div>
- <% end %>
+<% end %>

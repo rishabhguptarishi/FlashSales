@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_14_111214) do
+ActiveRecord::Schema.define(version: 2020_01_16_090903) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name", null: false
@@ -36,8 +36,8 @@ ActiveRecord::Schema.define(version: 2020_01_14_111214) do
   create_table "deals", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "title"
     t.string "description"
-    t.decimal "price", precision: 14, scale: 2
-    t.decimal "discounted_price", precision: 14, scale: 2
+    t.decimal "price", precision: 14, scale: 2, default: "0.0"
+    t.decimal "discounted_price", precision: 14, scale: 2, default: "0.0"
     t.integer "quantity"
     t.datetime "publish_at"
     t.boolean "publishable", default: false
@@ -63,8 +63,9 @@ ActiveRecord::Schema.define(version: 2020_01_14_111214) do
   end
 
   create_table "images", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
-    t.bigint "deal_id", null: false
-    t.index ["deal_id"], name: "index_images_on_deal_id"
+    t.string "imageable_type"
+    t.bigint "imageable_id"
+    t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id"
   end
 
   create_table "roles", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|

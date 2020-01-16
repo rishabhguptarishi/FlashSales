@@ -4,6 +4,7 @@
   <h3> There are no deals created right now</h3>
 <% else %>
   <table>
+    <%= paginate @deals %>
     <tbody>
       <% @deals.each do |deal| %>
       <tr>

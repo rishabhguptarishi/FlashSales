@@ -17,8 +17,8 @@ class UsersController < ApplicationController
       if @user.save
         format.html { redirect_to login_url, notice: "Please confirm your email address to continue" }
       else
-        #FIXME_AB: this alert wont be displayed
-        format.html { render 'new' , alert: "Could not save the record, please fix errors below." }
+        flash.now[:alert] = "Could not save the record, please fix errors below."
+        format.html { render 'new'  }
       end
     end
   end
