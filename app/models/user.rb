@@ -23,7 +23,6 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, if: -> {email.present?}
-  validates :password, presence: { message: "Password and Password Confirmation cant be blank"}
   validates :password, confirmation: true, length: {within: 6..30}, if: -> {password.present?}
 
   belongs_to :role
