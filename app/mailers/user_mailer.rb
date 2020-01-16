@@ -4,6 +4,7 @@ class UserMailer < ApplicationMailer
   def password_reset(user_id)
     @user = User.find(user_id)
     if @user
+      #FIXME_AB: in the email also send link validity time
       mail(to: "#{@user.name} <#{@user.email}>", subject: "Password Reset Link")
     end
   end

@@ -25,6 +25,7 @@ class PasswordResetController < ApplicationController
   end
 
   def update
+    #FIXME_AB: following line is being repeated in edit and update actoins you can extract it in a before action 'load_user_by_reset_token'
     @user = User.find_by(password_reset_token: params[:token])
     if @user.update(password: params[:user][:password], password_confirmation: params[:user][:password_confirmation], password_reset_token: nil, password_reset_token_generated_at: nil)
       redirect_to login_url, notice: "Password has been reset!"
