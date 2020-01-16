@@ -1,13 +1,13 @@
 class PasswordResetController < ApplicationController
-skip_before_action :authorize
-before_action :ensure_email_passed, only: [:create]
-before_action :ensure_token_exists, only: [:edit, :update]
+  skip_before_action :authorize
+  before_action :ensure_email_passed, only: [:create]
+  before_action :ensure_token_exists, only: [:edit, :update]
 
   def create
     user = User.find_by(email: params[:email])
     if user
       user.send_password_reset
-      redirect_to login_url, :notice => "Email sent with password reset instructions."
+      redirect_to login_url, notice: "Email sent with password reset instructions."
     else
       flash.now[:alert] = "User not found"
       render :new
@@ -41,7 +41,7 @@ before_action :ensure_token_exists, only: [:edit, :update]
   end
 
   private def ensure_token_exists
-    unless params[:token].blank?
+    if params[:token].blank?
       redirect_to login_url, alert: "Invalid token passed"
     end
   end

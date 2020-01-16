@@ -22,7 +22,7 @@ module Admin
         if @deal.save
           format.html { redirect_to admin_deals_path, notice: "Deal has been generated will go live at #{@deal.publish_at.to_date}" }
         else
-          flash.now[:alert] = "Ooooppss, something went wrong!"
+          flash.now[:alert] = "Could not save deal, please fix errors below"
           format.html { render 'new' }
         end
       end
