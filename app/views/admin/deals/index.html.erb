@@ -3,13 +3,13 @@
 <% if @deals.empty? %>
   <h3> There are no deals created right now</h3>
 <% else %>
-  <table>
+  <table class="table table-hover">
     <%= paginate @deals %>
     <tbody>
       <% @deals.each do |deal| %>
-      <tr>
+      <tr class="table-info">
         <td><% if deal.images.any? %>
-          <%= image_tag(deal.images[0].image, class: 'list_image') %>
+          <%= image_tag(deal.cover_image.service_url, class: 'list_image') %>
           <% end %>
         </td>
         <td>

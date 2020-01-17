@@ -1,3 +1,4 @@
+index_of_image_you_want_as_deal_cover: 0
 amazon_access_key: your aws access key
 amazon_secure_access_key: your aws secure access key
 minimum_images_required_for_deals: 2

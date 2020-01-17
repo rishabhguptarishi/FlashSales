@@ -2,8 +2,9 @@
 #
 # Table name: images
 #
-#  id      :bigint           not null, primary key
-#  deal_id :bigint           not null
+#  id             :bigint           not null, primary key
+#  imageable_type :string(255)
+#  imageable_id   :bigint
 #
 
 class Image < ApplicationRecord

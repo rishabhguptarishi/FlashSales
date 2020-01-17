@@ -1,6 +1,6 @@
 <% if image.object.persisted? %>
   <div>
-    <%= image_tag image.object.image %>
+    <%= image_tag image.object.image.attachment.service_url %>
     <%= image.check_box :_destroy %>
     <%= image.label :delete %>
   </div>

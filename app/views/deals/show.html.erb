@@ -40,7 +40,7 @@
   <% if @deal.images.any? %>
     <ul>
       <% @deal.images.each do |image| %>
-        <li><%= image_tag(image.image) %></li>
+        <li><%= image_tag(image.image.attachment.service_url) %></li>
       <% end %>
     </ul>
   <% end %>

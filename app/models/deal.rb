@@ -7,7 +7,7 @@
 #  description      :string(255)
 #  price            :decimal(14, 2)   default(0.0)
 #  discounted_price :decimal(14, 2)   default(0.0)
-#  quantity         :integer
+#  quantity         :integer          default(0)
 #  publish_at       :datetime
 #  publishable      :boolean          default(FALSE)
 #  published        :boolean          default(FALSE)
@@ -21,8 +21,10 @@
 class Deal < ApplicationRecord
   validates :title, :description, :price, :discounted_price, :quantity, :publish_at, presence: true
   validates :title, uniqueness: { case_sensitive: false}, if: -> { title.present? }
+  validates :description, length: { maximum: 255 }, if: -> {:description.present?}
   validates :quantity, numericality: { only_integer: true, greater_than_or_equal_to: 0}, if: -> { quantity.present? }
   validates :price, numericality: { greater_than: 0}, if: -> { price.present? }
+  validates :discounted_price, numericality: { greater_than_or_equal_to: 0}, if: -> { discounted_price.present? }
   validates_with DiscountPriceValidator
   validates_with PublishDateValidator
   validates_with DealPublishedValidator
@@ -43,6 +45,10 @@ class Deal < ApplicationRecord
 
   def set_publishabhle!
     update_column(:publishable, can_be_published?)
+  end
+
+  def cover_image
+    images[ENV['index_of_image_you_want_as_deal_cover'].to_i].image.attachment
   end
 
 

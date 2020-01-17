@@ -1,7 +1,7 @@
 class DealsController < ApplicationController
   before_action :set_deal, only: [:show]
   def index
-    @deals = Deal.publishable.where(live: true).includes(:images)
+    @deals = Deal.live_deals.includes(:images)
   end
 
 

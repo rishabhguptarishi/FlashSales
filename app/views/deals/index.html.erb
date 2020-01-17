@@ -8,7 +8,7 @@
       <% @deals.each do |deal| %>
       <tr>
         <td><% if deal.images.any? %>
-          <%= image_tag(deal.images[0].image) %>
+          <%= image_tag(deal.cover_image.service_url) %>
           <% end %>
         </td>
         <td>
