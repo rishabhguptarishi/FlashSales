@@ -8,7 +8,8 @@
 #
 
 class Image < ApplicationRecord
-  #FIXME_AB: we can make this polymorphic so that it can be used with deal and any other model
   belongs_to :imageable, polymorphic: true
   has_one_attached :image
+
+  #FIXME_AB: add required validations on this model
 end

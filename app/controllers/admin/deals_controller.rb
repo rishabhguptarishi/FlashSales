@@ -4,7 +4,6 @@ module Admin
 
     def index
       @deals = Deal.all.includes(:images).page(params[:page])
-      #FIXME_AB: paginated list
     end
 
     def show

@@ -51,6 +51,8 @@ group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'letter_opener', '~> 1.4', '>= 1.4.1'
   gem 'web-console', '>= 3.3.0'
+
+  #FIXME_AB: fix version of this gem
   gem 'annotate'
 
 end

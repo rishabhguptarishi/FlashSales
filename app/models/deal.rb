@@ -37,6 +37,7 @@ class Deal < ApplicationRecord
 
   scope :publishable, -> { where(publishable: true) }
   scope :live_deals, -> { where(live: true) }
+  #FIXME_AB: Time.current is call twice in this scope so you can do something like ->(current_time = Time.current) and use current_time inside the block
   scope :scheduled_to_go_live_today, -> { where(publish_at: Time.current.at_beginning_of_day..Time.current.at_end_of_day) }
 
   def can_be_published?
