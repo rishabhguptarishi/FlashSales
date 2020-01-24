@@ -62,6 +62,9 @@ class Deal < ApplicationRecord
   end
 
   def create_deal_items
+    #FIXME_AB: once deal is published or with in 24 hours, qty can not be changed
+    #FIXME_AB: you need to adjust qtyis, they can increase or decrease. One way is to delete all deal_items and create fresh. if we do this we also need to make sure that no deal item is locked
+
     if quantity_changed?
       (quantity - deal_items.count).times do
         deal_items.build

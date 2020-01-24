@@ -30,6 +30,7 @@ module Admin
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
+      #FIXME_AB:  what if object not found?
       @user = User.find(params[:id])
     end
 

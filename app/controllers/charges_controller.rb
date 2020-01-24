@@ -28,6 +28,7 @@ class ChargesController < ApplicationController
     redirect_to root_path
   end
 
+  #FIXME_AB: same exists in applicatoin controller
   private def set_order
     if session[:order_id]
       @order = Order.find_by(id: session[:order_id])

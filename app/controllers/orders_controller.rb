@@ -6,6 +6,16 @@ class OrdersController < ApplicationController
   def show
   end
 
+  #FIXME_AB: instead of create and update actions, make add_item.
+  # Add item action will have  before actions.
+  #1. check if item has bought already
+  #2. ensure order exists(this will load order form session or create a new order and save in session)
+  #3. ensure that deal is available for purchase, qty available and live
+
+  # def add_item
+  #   @order.add_line_item(@deal)
+  # end
+
   def create
     @order.add_line_item(params[:deal])
     respond_to do |format|
@@ -34,6 +44,7 @@ class OrdersController < ApplicationController
 
   def place_order
     respond_to do |format|
+      #FIXME_AB: extract address in a new model user has many address, address belongs to user. order belongs to address.
       if @order.update(address: params[:address], order_placed_at: Time.current)
         format.html { redirect_to new_charge_path }
       else
@@ -48,6 +59,7 @@ class OrdersController < ApplicationController
 
 
   private def check_if_already_bought
+    #FIXME_AB: this logic shoudl be in user: current_user.can_by?(params[:deal_id])
     if current_user.line_items.exists?(deal_id: params[:id])
       redirect_to root_path, alert: 'You already bought this deal'
     end

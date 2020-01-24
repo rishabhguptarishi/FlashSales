@@ -4,7 +4,6 @@ module Admin
 
     def index
       @deals = Deal.all.includes(:images).page(params[:page])
-      #FIXME_AB: paginated list
     end
 
     def show
@@ -17,6 +16,7 @@ module Admin
 
     def create
       @deal = Deal.new(deal_params)
+      #FIXME_AB: we can do it as a callback to create and update before_create create_deal_items, before_update :adjust_deal_items
       @deal.create_deal_items
       respond_to do |format|
         if @deal.save
