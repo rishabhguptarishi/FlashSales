@@ -1,8 +1,7 @@
 <h1 class="col-md-6 offset-md-5">Editing deal</h1>
 
 <div class="jumbotron col-md-6 offset-md-3">
-  <%= render 'form', deal: @deal %>
+  <%= render 'form', deal: @deal %><br>
+  <%= link_to 'Show', @deal, class:'btn btn-success col-md-2' %>
+  <%= link_to 'Cancel', admin_deals_path, class:'btn btn-info col-md-2' %>
 </div>
-
-<%= link_to 'Show', @deal %> |
-<%= link_to 'Back', admin_deals_path %>

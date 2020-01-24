@@ -2,22 +2,23 @@
 <% if @users.any? %>
   <%= paginate @users %>
   <table class="table table-hover">
-    <thead class="thead-dark">
+    <thead>
       <tr>
         <th>Name</th>
         <th>Email</th>
         <th>Verified</th>
-        <th></th>
+        <th colspan="2"></th>
       </tr>
     </thead>
 
-    <tbody>
+    <tbody class="table-info">
       <% @users.each do |user| %>
         <tr>
           <td><%= user.name %></td>
           <td><%= user.email %></td>
           <td><%= user.verified %></td>
           <td><%= link_to 'Show', admin_user_path(user) %></td>
+          <td><%= link_to 'Edit', edit_admin_user_path(user) %></td>
         </tr>
       <% end %>
     </tbody>

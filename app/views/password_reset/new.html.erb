@@ -4,11 +4,12 @@
   <div class="form-group row">
     <%= label_tag :email, "Email Id",class:"required" %>
     <%= email_field_tag :email, params[:email], class:"form-control" %>
+    <small>Enter email on which password reset link will be sent</small>
   </div>
-  <small>Enter email on which password reset link will be sent</small>
+
   <div class="actions">
-    <%= submit_tag "Reset Password", class:"btn btn-primary" %>
-    <%= link_to "Log In", login_path, class:"btn btn-success" %>
+    <%= submit_tag "Reset Password", class:"btn btn-success" %>
+    <%= link_to "Log In to Existing Account", login_path, class:"btn btn-primary" %>
   </div>
 <% end %>
 <br>

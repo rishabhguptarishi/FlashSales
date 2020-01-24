@@ -1,5 +1,6 @@
 class PasswordResetController < ApplicationController
   skip_before_action :authorize
+  skip_before_action :set_order
   before_action :ensure_email_passed, only: [:create]
   before_action :ensure_token_exists, :set_user_from_password_reset_token, only: [:edit, :update]
 

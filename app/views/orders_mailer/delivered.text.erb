@@ -1,0 +1,9 @@
+Dear <%= @order.user.name %>
+Your Order has been delivered
+<% @order.line_items.each do |line_item| %>
+  <%= line_item.deal.title %>
+  <%= number_to_currency(line_item.deal.price) %>
+  <%= number_to_currency(line_item.deal.discounted_price) %>
+<% end %>
+Amount: <%= @order.total_amount %>
+Address: <%= @order.address %>

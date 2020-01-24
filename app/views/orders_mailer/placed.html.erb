@@ -1,0 +1,29 @@
+<h3>Dear <%= @order.user.name %></h3><br>
+<p>Your Order has been placed</p><br>
+<% @order.line_items.each do |line_item| %>
+  <table class="table table-hover">
+    <tbody>
+      <tr class="table-info">
+        <td><% if line_item.deal.images.any? %>
+          <%= image_tag(line_item.deal.cover_image.service_url) %>
+          <% end %>
+        </td>
+        <td>
+          <h1><%= line_item.deal.title %></h1>
+        </td>
+        <td>
+          <p>
+            <%= number_to_currency(line_item.deal.price) %>
+          </p>
+          <p>
+            <%= number_to_currency(line_item.deal.discounted_price) %>
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
+<label class="amount">
+  <span>Amount: <%= order.total_amount %></span>
+</label>
+<p>Address: <%= @order.address %></p>

@@ -23,9 +23,11 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, if: -> {email.present?}
-  validates :password, confirmation: true, length: {within: 6..30}, if: -> {password.present?}
+  validates :password, length: {within: 6..30}, if: -> {password.present?}
 
   belongs_to :role
+  has_many :orders
+  has_many :line_items, through: :orders
 
   before_create -> { generate_token(:verification_token) }, unless: :is_admin?
   after_create_commit :send_verification_mail, unless: :is_admin?
@@ -34,7 +36,6 @@ class User < ApplicationRecord
   scope :publishable, -> { where(publishable: true) }
   scope :live_deals,  -> { where(live: true) }
   scope :all_except,  -> (user) { where.not(id: user.id) }
-
 
   has_secure_password
 

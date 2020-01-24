@@ -17,6 +17,7 @@ module Admin
 
     def create
       @deal = Deal.new(deal_params)
+      @deal.create_deal_items
       respond_to do |format|
         if @deal.save
           format.html { redirect_to admin_deals_path, notice: "Deal has been saved and will go live at #{@deal.publish_at.to_date}" }
@@ -35,6 +36,7 @@ module Admin
     end
 
     def update
+      @deal.create_deal_items
       respond_to do |format|
         if @deal.update(deal_params)
           format.html { redirect_to admin_deals_path, notice: "Deal has been updated" }

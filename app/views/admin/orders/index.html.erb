@@ -1,0 +1,30 @@
+<h1>Orders</h1>
+
+<% if @orders.empty? %>
+  <h3> There are no orders created right now</h3>
+<% else %>
+  <h5>Search by email</h5>
+  <%= form_tag(admin_deals_path, method: :get) do %>
+    <%= email_field_tag(:search, params[:search]) %>
+    <%= submit_tag ("Search") %>
+  <% end %>
+  <table class="table table-hover">
+    <%= paginate @orders %>
+    <tbody>
+      <% @orders.each do |order| %>
+      <tr class="table-info">
+        <td>
+          <h1><%= order.workflow_status %></h1>
+        </td>
+        <td>
+          <%= number_to_currency(order.total_amount) %>
+        </td>
+        <td><%= order.placed_at %></td>
+        <td><%= order.user.email %></td>
+        <td><%= order.user.name %></td>
+      </tr>
+      <% end %>
+
+    </tbody>
+  </table>
+<% end %>

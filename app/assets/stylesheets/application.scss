@@ -4,9 +4,18 @@
   content: "*";
   color: red;
 }
+#card-element {
+  width: -webkit-fill-available;
+}
 body{
   main{
     margin: 2%;
+  }
+  small{
+    color: white;
+  }
+  .hidden {
+    display: none;
   }
   .sessions {
     .flashsale-form {

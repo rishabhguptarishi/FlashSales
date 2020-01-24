@@ -1,0 +1,23 @@
+<h1>Orders</h1>
+
+<% if @orders.empty? %>
+  <h3> There are no orders created right now</h3>
+<% else %>
+  <table class="table table-hover">
+    <%= paginate @orders %>
+    <tbody>
+      <% @orders.each do |order| %>
+      <tr class="table-info">
+        <td>
+          <h1><%= order.workflow_status %></h1>
+        </td>
+        <td>
+          <%= number_to_currency(order.total_amount) %>
+        </td>
+        <td><%= order.placed_at %></td>
+      </tr>
+      <% end %>
+
+    </tbody>
+  </table>
+<% end %>

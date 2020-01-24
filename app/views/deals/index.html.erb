@@ -3,13 +3,17 @@
 <% if @deals.empty? %>
   <h3> There are no deals created right now</h3>
 <% else %>
-  <table>
-    <tbody>
+  <table class="table table-hover">
+    <tbody class="table-info">
       <% @deals.each do |deal| %>
       <tr>
-        <td><% if deal.images.any? %>
-          <%= image_tag(deal.cover_image.service_url) %>
-          <% end %>
+        <td data-slideshow="slideshow"><% if deal.images.any? %>
+          <ul>
+            <% deal.images.each do |image| %>
+              <li><%= image_tag(image.process_image.service_url) %></li>
+            <% end %>
+          </ul>
+        <% end %>
         </td>
         <td>
           <h1><%= deal.title %></h1>
@@ -26,10 +30,16 @@
             <%= number_to_currency(deal.discounted_price) %>
           </p>
         </td>
-        <td>
-          <ul>
-            <li><%= link_to 'Show', deal %></li>
-          </ul>
+        <td data-options="<%= deal.id %>">
+            <p><% if !deal.live %>
+              Old Deal
+            <% elsif !deal.quantity_available? %>
+              Sold Out
+            <% elsif session[:order_id] %>
+              <%= link_to 'Buy', order_path(deal), method: :put %>
+            <% else %>
+              <%= link_to 'Buy', orders_path(deal: deal), method: :post %>
+            <% end %></p>
         </td>
       </tr>
       <% end %>
@@ -37,3 +47,5 @@
     </tbody>
   </table>
 <% end %>
+<%= javascript_pack_tag 'slideshow'%>
+<%= javascript_pack_tag 'update_deals' %>

@@ -9,7 +9,7 @@
       <% @deals.each do |deal| %>
       <tr class="table-info">
         <td><% if deal.images.any? %>
-          <%= image_tag(deal.cover_image.service_url, class: 'list_image') %>
+          <%= image_tag(deal.cover_image.service_url) %>
           <% end %>
         </td>
         <td>
@@ -29,8 +29,8 @@
         </td>
         <td>
           <ul>
-            <li><%= link_to 'Show', admin_deal_path(deal) %></li>
-            <li><%= link_to 'Edit', edit_admin_deal_path(deal) %></li>
+            <li><%= link_to 'Show', admin_deal_path(deal), class:'btn btn-info' %></li><br>
+            <li><%= link_to 'Edit', edit_admin_deal_path(deal), class: 'btn btn-success' %></li>
           </ul>
         </td>
       </tr>

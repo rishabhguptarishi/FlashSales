@@ -33,11 +33,15 @@ gem 'rails-i18n', '~> 6.0'
 gem 'aws-sdk', '~> 3.0', '>= 3.0.1'
 
 gem 'whenever', '~> 0.9.4'
+gem 'workflow-activerecord', '~> 4.1', '>= 4.1.2'
+
+gem 'stripe', '~> 1.57', '>= 1.57.1'
+
 
 #gem 'bullet', '~> 5.7', '>= 5.7.5'
 
 # Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
+gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -51,7 +55,7 @@ group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'letter_opener', '~> 1.4', '>= 1.4.1'
   gem 'web-console', '>= 3.3.0'
-  gem 'annotate'
+  gem 'annotate', '>=3.0.3'
 
 end
 

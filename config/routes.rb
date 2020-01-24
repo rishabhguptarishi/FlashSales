@@ -69,9 +69,22 @@ Rails.application.routes.draw do
       get 'check_publishable' => 'deals#check_publishable', on: :member
     end
     resources :users
+    resources :orders do
+      get 'cancel' => 'orders#cancelled', on: :member
+      get 'deliver' => 'orders#delivered', on: :member
+    end
   end
 
   resources :deals, only: [:show, :index]
+  get 'get_deal_quantity' => 'deals#get_deal_quantity'
+  get 'past_deals' => 'deals#past_deals', as: 'past_deals'
+  resources :orders
+  controller :orders do
+    get 'checkout' => :checkout, as: 'checkout'
+    patch 'place_order' => :place_order, as: 'place_order'
+    get 'past_orders' => :past_orders, as: 'past_orders'
+  end
+  resources :charges
 
   root 'deals#index', via: :all
   get '*path' => redirect('/')
