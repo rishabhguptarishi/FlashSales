@@ -1,14 +1,15 @@
 class ApplicationController < ActionController::Base
   before_action :authorize
   helper_method :current_user
+
   def current_user
     @current_user
   end
 
   private def authorize
     if cookies[:remember_me_token]
-      @current_user = User.find_by(remember_me_token: cookies[:remember_me_token])
-    else
+      @current_user = User.find_by(remember_me_token: cookies.signed[:remember_me_token])
+    elsif session[:user_id]
       @current_user = User.find_by(id: session[:user_id])
     end
     unless @current_user

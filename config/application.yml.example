@@ -1,5 +1,11 @@
-# set keys pusher_key
-#SENDGRID_API_KEY: your sendgrid api key
+index_of_image_you_want_as_deal_cover: 0
+amazon_access_key: your aws access key
+amazon_secure_access_key: your aws secure access key
+minimum_images_required_for_deals: 2
+minimum_quantity_of_items_for_deal: 11
+max_of_deals_for_a_day: 2
+deal_publish_time: 10:00:00
+SENDGRID_API_KEY: your sendgrid key
 password_reset_token_expiry_time_in_hours: 2
 default_mailers_from: me@mydomain.com
 cookies_to_be_deleted_on_logout:

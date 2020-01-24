@@ -1,0 +1,50 @@
+<h2>Deal Details</h2>
+<div class="jumbotron">
+  <div class="row">
+    <%= button_to "Check Publishability", {action: "check_publishable", id: @deal.id}, remote: true, method: :get, id:"publishable_check", class: "btn btn-primary" %>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-4">Title:</strong>
+    <span  class="col-md-8"><%= @deal.title %></span>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-4">Description:</strong>
+    <span  class="col-md-8"><%= @deal.description %></span>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-4">Price:</strong>
+    <span  class="col-md-8"><%= number_to_currency(@deal.price) %></span>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-4">Discounted Price:</strong>
+    <span  class="col-md-8"><%= number_to_currency(@deal.discounted_price) %></span>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-4">Quantity:</strong>
+    <span  class="col-md-8"><%= @deal.quantity %></span>
+  </div>
+
+  <div class="row">
+    <strong class="col-md-4">Publish Date:</strong>
+    <span  class="col-md-8">
+      <%= @deal.publish_at %>
+    </span>
+  </div>
+
+  <% if @deal.images.any? %>
+    <ul>
+      <% @deal.images.each do |image| %>
+        <li><%= image_tag(image.image.attachment.service_url) %></li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
+
+<%= link_to 'Edit', edit_admin_deal_path(@deal) %> |
+<%= link_to 'Back', admin_deals_path %>
+<%= javascript_pack_tag 'publishable_ajax_call'%>

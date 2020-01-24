@@ -24,12 +24,15 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'figaro', '~> 1.1', '>= 1.1.1'
 
-gem 'bootstrap', '~> 4.1.1'
-
-gem 'delayed_job_active_record'
+gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.4'
 gem "daemons"
 
-gem 'kaminari'
+gem 'kaminari', '~> 1.1', '>= 1.1.1'
+gem 'rails-i18n', '~> 6.0'
+
+gem 'aws-sdk', '~> 3.0', '>= 3.0.1'
+
+gem 'whenever', '~> 0.9.4'
 
 #gem 'bullet', '~> 5.7', '>= 5.7.5'
 
@@ -46,7 +49,12 @@ end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
+  gem 'letter_opener', '~> 1.4', '>= 1.4.1'
   gem 'web-console', '>= 3.3.0'
+
+  #FIXME_AB: fix version of this gem
+  gem 'annotate'
+
 end
 
 group :test do

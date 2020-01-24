@@ -1,27 +1,20 @@
+<h2>Set New Password</h2>
 <%= form_with(model: @user, local: true, url: password_reset_path(params[:token])) do |form| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+  <%= render "layouts/errors", errors: @user.errors %>
 
-      <ul>
-        <% @user.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :password %>
-    <%= form.password_field :password %>
+  <div class="form-group row">
+    <%= form.label :password, class:"required" %>
+    <%= form.password_field :password, class:"form-control" %>
   </div>
 
-  <div class="field">
-    <%= form.label :password_confirmation %>
-    <%= form.password_field :password_confirmation %>
+  <div class="form-group row">
+    <%= form.label :password_confirmation, class:"required" %>
+    <%= form.password_field :password_confirmation, class:"form-control" %>
   </div>
 
   <div class="actions">
-    <%= form.submit "Update Password" %>
+    <%= form.submit "Update Password", class:"btn btn-primary" %>
   </div>
 <% end %>
+<br>
+<%= link_to 'Exit', login_path %>

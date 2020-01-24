@@ -1,0 +1,11 @@
+<% if image.object.persisted? %>
+  <div>
+    <%= image_tag image.object.image.attachment.service_url %>
+    <%= image.check_box :_destroy %>
+    <%= image.label :delete %>
+  </div>
+ <% else %>
+  <div class="custom-file" data-input-image="input_fields">
+    <%= image.file_field :image, class:"file-input" %>
+  </div>
+<% end %>
