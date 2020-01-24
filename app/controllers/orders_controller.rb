@@ -54,6 +54,7 @@ class OrdersController < ApplicationController
   end
 
   def past_orders
+    #FIXME_AB: current_user.orders.past
     @orders = current_user.orders.past_orders.page(params[:page])
   end
 
@@ -65,6 +66,7 @@ class OrdersController < ApplicationController
     end
   end
 
+  #FIXME_AB: since we'll move address to other model, so Address class should have validations
   private def validate_address_present
     if params[:order][:address].blank?
       flash[:alert] = 'Please provide address'

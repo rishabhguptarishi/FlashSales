@@ -19,6 +19,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    #FIXME_AB: current_user.delete_cart which should delete all non placed orders for the user
     if session[:order_id]
       order = Order.where(id: session[:order_id])
       order.deal_items.update_all(status: 'available')

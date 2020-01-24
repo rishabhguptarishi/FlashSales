@@ -19,9 +19,12 @@ class Order < ApplicationRecord
   has_many :deal_items, through: :line_items
   belongs_to :user
 
+  #FIXME_AB: you should have a before_destroy which should check whether order can be destroyed or not. if can be destroyed the it should mark deal_items available before destory
+
   scope :past_orders, -> { where('order_placed_at <= ?', Time.current) }
   scope :placed, -> { where(workflow_state: 'placed') }
 
+  #FIXME_AB: review this function
   def self.search(search)
     if search
       user = User.find_by(emai: email)
@@ -35,6 +38,7 @@ class Order < ApplicationRecord
     end
   end
 
+  #FIXME_AB: review this method for negative cases
   def add_line_item(deal_id)
     deal_item = Deal.find(deal_id).deal_items.where(status: 'available').first
     line_item = self.line_items.build
@@ -49,6 +53,7 @@ class Order < ApplicationRecord
       total_price += item.deal.discounted_price
     end
     total_orders_till_date = user.orders.where.not(id: id).count
+    #FIXME_AB: discount calculation should go in user. like user.eligible_additional_discount. Also consider just delivered orders
     discount = total_orders_till_date < 5 ? total_orders_till_date : 5
     final_amount = total_price - (total_price * discount/100)
   end

@@ -13,6 +13,7 @@ class UpdateDeal {
     deal_id = deal.dealId
     $.ajax({
       type: "GET",
+      // FIXME_AB: don't hardcode this url in JS, use data-attributes
       url: "/get_deal_quantity?id=" + deal_id,
       success: function(result){
         if (result['live'] && !result['quantity']){

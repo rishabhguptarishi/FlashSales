@@ -31,6 +31,7 @@ class Deal < ApplicationRecord
   validates_with DealPublishedValidator
 
   has_many :images, as: :imageable, dependent: :destroy
+  #FIXME_AB: has_many :deal_items, dependent: :destroy
   has_many :deal_items, dependent: :restrict_with_error
   has_many :line_items, dependent: :restrict_with_error
   has_many :orders, through: :line_items
@@ -42,6 +43,7 @@ class Deal < ApplicationRecord
   scope :publishable, -> { where(publishable: true) }
   scope :live_deals, -> { where(live: true) }
   scope :scheduled_to_go_live_today, ->(current_time = Time.current) { where(publish_at: current_time.at_beginning_of_day..current_time.at_end_of_day) }
+  #FIXME_AB: this logic is wrong
   scope :past_deals, -> { where('publish_at < ?', Time.current).order(publish_at: :desc) }
 
   def can_be_published?
@@ -73,6 +75,7 @@ class Deal < ApplicationRecord
   end
 
   def quantity_available?
+    #FIXME_AB: ad scope in deal_items so that you can use deal_items.available.present?
     deal_items.exists?(status: 'available')
   end
 
