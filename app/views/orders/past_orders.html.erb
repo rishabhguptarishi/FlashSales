@@ -9,12 +9,12 @@
       <% @orders.each do |order| %>
       <tr class="table-info">
         <td>
-          <h1><%= order.workflow_status %></h1>
+          <h3><%= order.workflow_state %></h3>
         </td>
         <td>
-          <%= number_to_currency(order.total_amount) %>
+          <%= number_to_currency(order.total_price) %>
         </td>
-        <td><%= order.placed_at %></td>
+        <td><%= order.order_placed_at %></td>
       </tr>
       <% end %>
 

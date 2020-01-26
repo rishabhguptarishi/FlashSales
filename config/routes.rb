@@ -73,6 +73,12 @@ Rails.application.routes.draw do
       get 'cancel' => 'orders#cancelled', on: :member
       get 'deliver' => 'orders#delivered', on: :member
     end
+    controller :reports do
+      get 'maximum_potential' => :maximum_potential, as: "maximum_potential"
+      get 'minimum_potential' => :minimum_potential, as: "minimum_potential"
+      get 'total_revenue' => :total_revenue, as: "total_revenue"
+      get 'top_spending_customers' => :top_spending_customers, as: "top_spending_customers"
+    end
   end
 
   resources :deals, only: [:show, :index]

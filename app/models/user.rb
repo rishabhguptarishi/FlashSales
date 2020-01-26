@@ -28,6 +28,7 @@ class User < ApplicationRecord
   belongs_to :role
   has_many :orders
   has_many :line_items, through: :orders
+  has_many :addresses, ->{ order(created_at: :desc) }, through: :orders
 
   before_create -> { generate_token(:verification_token) }, unless: :is_admin?
   after_create_commit :send_verification_mail, unless: :is_admin?

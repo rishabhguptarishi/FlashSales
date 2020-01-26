@@ -1,19 +1,18 @@
-<script src="https://js.stripe.com/v3/"></script>
-<%= tag :meta, :name=> 'stripe-key', :content => Rails.configuration.stripe[:publishable_key] %>
-
-<div class="jumbotron">
-  <%= form_with(url: charges_path, method: :post, id: "payment-form") do %>
-    <div class="form-row">
-      <%= label_tag("card-element", "Card Info") %>
-      <div id="card-element">
-        <!-- A Stripe Element will be inserted here. -->
-      </div>
-
-      <!-- Used to display form errors. -->
-      <div id="card-errors" role="alert"></div>
-    </div>
-
-    <%= submit_tag("Pay") %>
+<%= form_tag charges_path do %>
+<article>
+  <% if flash[:error].present? %>
+  <div id="error_explanation">
+    <p><%= flash[:error] %></p>
+  </div>
   <% end %>
-</div>
-<%= javascript_pack_tag 'stripe_payment' %>
+  <h4>Amount to be paid: <%= @order.total_price %></h4>
+</article>
+<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+    data-description="order payment"
+    data-amount="<%= @order.total_price * 100 %>"
+    data-email="<%= @order.user.email %>"
+    data-name="<%= @order.user.name %>"
+    data-address="true"
+    data-locale="auto"></script>
+<% end %>

@@ -42,7 +42,8 @@ class Deal < ApplicationRecord
   scope :publishable, -> { where(publishable: true) }
   scope :live_deals, -> { where(live: true) }
   scope :scheduled_to_go_live_today, ->(current_time = Time.current) { where(publish_at: current_time.at_beginning_of_day..current_time.at_end_of_day) }
-  scope :past_deals, -> { where('publish_at < ?', Time.current).order(publish_at: :desc) }
+  scope :past_deals, -> { where('publish_at < ?', Time.current.at_beginning_of_day).order(publish_at: :desc) }
+  scope :published, -> { where(published: true) }
 
   def can_be_published?
     publishable || (has_minimum_images && has_minimum_quantity && max_deals_for_day_not_reached)
@@ -50,6 +51,19 @@ class Deal < ApplicationRecord
 
   def set_publishabhle!
     update_column(:publishable, can_be_published?)
+  end
+
+  def maximum_potential
+    quantity * discounted_price
+  end
+
+  def minimum_potential
+    max = maximum_potential
+    max - ((max * ENV['maximum_discount_to_customer'].to_i) / 100)
+  end
+
+  def total_revenue
+    orders.sum(:total_price)
   end
 
   def cover_image

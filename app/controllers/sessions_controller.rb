@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
   def destroy
     if session[:order_id]
       order = Order.where(id: session[:order_id])
-      order.deal_items.update_all(status: 'available')
+      order.first.deal_items.update_all(status: 'available')
       order.destroy_all
     end
     reset_session

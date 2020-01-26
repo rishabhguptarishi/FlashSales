@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     end
     unless @order
       @order = current_user.orders.new
-      session.delete(:order_id)
+      session[:order_id] = nil
     end
   end
 end

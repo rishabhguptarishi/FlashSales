@@ -1,4 +1,5 @@
 <%= form_with(model: @order, local: true, url: place_order_path) do |form| %>
+<%= render "layouts/errors", errors: @order.errors %>
   <% @order.line_items.each do |line_item| %>
     <table class="table table-hover">
       <tbody>
@@ -22,14 +23,44 @@
       </tbody>
     </table>
   <% end %>
-  <label class="amount">
-<span>Amount: <%= @order.total_amount %></span>
-</label>
-  <div class="field">
-    <%= form.label :address %>
-    <%= form.text_field :address %>
+
+  <%= form.collection_radio_buttons(:address, current_user.addresses, :id, :full_address ) do |b| %>
+    <div class="card border-info mb-3 card-body" style="max-width: 20rem;">
+      <%= b.radio_button %>
+      <%= b.label %>
+    </div>
+  <% end %>
+
+  <div class="jumbotron">
+    <h3>Add new address</h3><br>
+    <%= form.fields_for :address do |address_form| %>
+      <div class="form-group row">
+        <%= address_form.label :city %>
+        <%= address_form.text_field :city, class:"form-control" %>
+      </div>
+
+        <div class="form-group row">
+          <%= address_form.label :line1 %>
+          <%= address_form.text_field :line1, class:"form-control" %>
+        </div>
+
+        <div class="form-group row">
+          <%= address_form.label :state %>
+          <%= address_form.text_field :state, class:"form-control" %>
+        </div>
+
+        <div class="form-group row">
+          <%= address_form.label :country %>
+          <%= address_form.text_field :country, class:"form-control" %>
+        </div>
+
+        <div class="form-group row">
+          <%= address_form.label :pincode %>
+          <%= address_form.text_field :pincode, class:"form-control" %>
+        </div>
+    <% end %>
   </div>
   <div class="action">
-    <%= form.submit %>
+    <%= form.submit class:"btn btn-success" %>
   </div>
 <% end %>

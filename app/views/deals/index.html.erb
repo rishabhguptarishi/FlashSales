@@ -38,7 +38,7 @@
             <% elsif session[:order_id] %>
               <%= link_to 'Buy', order_path(deal), method: :put %>
             <% else %>
-              <%= link_to 'Buy', orders_path(deal: deal), method: :post %>
+              <%= link_to 'Buy', orders_path(id: deal), method: :post %>
             <% end %></p>
         </td>
       </tr>

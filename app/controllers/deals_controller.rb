@@ -1,5 +1,4 @@
 class DealsController < ApplicationController
-  before_action :set_deal, only: [:show]
   def index
     @deals = Deal.live_deals.includes(:images)
     unless @deals.any?
@@ -17,9 +16,6 @@ class DealsController < ApplicationController
     end
   end
 
-
-  def show
-  end
 
   def past_deals
     @deals = Deal.past_deals.page(params[:page])

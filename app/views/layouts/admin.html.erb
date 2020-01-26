@@ -28,6 +28,15 @@
                 <%= link_to "Add a new deal", new_admin_deal_path, class:"dropdown-item" %>
               </div>
           </li>
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Reports</a>
+              <div class="dropdown-menu" >
+                <%= link_to "Total Revenue", admin_total_revenue_path, class:"dropdown-item" %>
+                <%= link_to "Maximum Potential", admin_maximum_potential_path, class:"dropdown-item" %>
+                <%= link_to "Minimum Potential", admin_minimum_potential_path, class:"dropdown-item" %>
+                <%= link_to "Top Spending Customers", admin_top_spending_customers_path, class:"dropdown-item" %>
+              </div>
+          </li>
           <li class="nav-item">
             <%= link_to "Users", admin_users_path, class:"nav-link" %>
           </li>

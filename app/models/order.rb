@@ -14,17 +14,20 @@ class Order < ApplicationRecord
     state :cancelled
   end
 
+  validates_associated :address
 
   has_many :line_items, dependent: :destroy
   has_many :deal_items, through: :line_items
+  has_one :address, dependent: :destroy
   belongs_to :user
+  accepts_nested_attributes_for :address, allow_destroy: true
 
   scope :past_orders, -> { where('order_placed_at <= ?', Time.current) }
   scope :placed, -> { where(workflow_state: 'placed') }
 
   def self.search(search)
     if search
-      user = User.find_by(emai: email)
+      user = User.find_by(email: search)
       if user
         user.orders
       else
