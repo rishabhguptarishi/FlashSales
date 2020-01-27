@@ -31,13 +31,15 @@ class Deal < ApplicationRecord
   validates_with DealPublishedValidator
 
   has_many :images, as: :imageable, dependent: :destroy
-  has_many :deal_items, dependent: :restrict_with_error
+  has_many :deal_items, dependent: :destroy
   has_many :line_items, dependent: :restrict_with_error
   has_many :orders, through: :line_items
 
   accepts_nested_attributes_for :images, allow_destroy: true
 
   after_save :set_publishabhle!
+  before_create :create_deal_items
+  before_update :adjust_deal_items
 
   scope :publishable, -> { where(publishable: true) }
   scope :live_deals, -> { where(live: true) }
@@ -76,15 +78,34 @@ class Deal < ApplicationRecord
   end
 
   def create_deal_items
+    #FIXME_AB: once deal is published or with in 24 hours, qty can not be changed
+    #FIXME_AB: you need to adjust qtyis, they can increase or decrease. One way is to delete all deal_items and create fresh. if we do this we also need to make sure that no deal item is locked
+    quantity.times do
+      deal_items.build
+    end
+  end
+
+  def adjust_deal_items
     if quantity_changed?
-      (quantity - deal_items.count).times do
-        deal_items.build
+      current_count = deal_items.count
+      if quantity > current_count
+        (quantity - current_count).times do
+          deal_items.build
+        end
+      else
+        deal_items.where(status: 'available').take(current_count - quantity).delete_all
       end
     end
   end
 
+  def book!
+    deal_item = deal_items.available.first
+    deal_item.update(status: 'booked')
+    deal_item
+  end
+
   def quantity_available?
-    deal_items.exists?(status: 'available')
+    deal_items.available.present?
   end
 
   private def has_minimum_images

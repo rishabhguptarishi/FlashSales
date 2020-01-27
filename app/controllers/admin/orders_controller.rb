@@ -9,17 +9,19 @@ module Admin
     def show
     end
 
-    def delivered
+    def mark_delivered!
       @order.deliver!
     end
 
-    def cancelled
+    def mark_cancelled!
       @order.cancel!
-      @order.deal_items.update_all(status: 'available')
     end
 
     private def set_order
       @order = Order.find(params[:id])
+      unless @order
+        redirect_to admin_deals_path, alert: 'This order doesnt exist'
+      end
     end
   end
 end

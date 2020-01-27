@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :authorize
+  skip_before_action :authorize, except: [:destroy]
   skip_before_action :set_order
 
   def new
@@ -19,11 +19,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    if session[:order_id]
-      order = Order.where(id: session[:order_id])
-      order.first.deal_items.update_all(status: 'available')
-      order.destroy_all
-    end
+    current_user.delete_cart
     reset_session
     delete_stored_cookies
     redirect_to login_url, notice: "Logged Out"

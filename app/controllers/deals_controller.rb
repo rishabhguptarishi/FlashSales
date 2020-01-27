@@ -6,22 +6,15 @@ class DealsController < ApplicationController
     end
   end
 
-  def get_deal_quantity
-    response = {}
-    deal = Deal.find(params[:id])
-    response['quantity'] = deal.quantity_available?
-    response['live'] = deal.live
+  def get_availability
+    deal = Deal.published.find(params[:id])
     respond_to do |format|
-      format.json { render json: response }
+      format.json { render json: {quantity_available: deal.quantity_available?, live: deal.live} }
     end
   end
 
 
   def past_deals
     @deals = Deal.past_deals.page(params[:page])
-  end
-
-  private def set_deal
-    @deal = Deal.find(params[:id])
   end
 end

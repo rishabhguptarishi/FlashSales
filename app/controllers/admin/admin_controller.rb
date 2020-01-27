@@ -6,7 +6,7 @@ module Admin
 
     def authorize_admin
       unless current_user.is_admin?
-        redirect_to root_path(current_user.id), alert: "You are not authorized to view this page"
+        redirect_to root_path, alert: "You are not authorized to view this page"
       end
     end
   end

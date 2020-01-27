@@ -82,10 +82,11 @@ Rails.application.routes.draw do
   end
 
   resources :deals, only: [:show, :index]
-  get 'get_deal_quantity' => 'deals#get_deal_quantity'
+  get 'get_availability' => 'deals#get_availability'
   get 'past_deals' => 'deals#past_deals', as: 'past_deals'
-  resources :orders
+
   controller :orders do
+    put 'buy_deal' => :add_line_item, as: 'add_line_item'
     get 'checkout' => :checkout, as: 'checkout'
     patch 'place_order' => :place_order, as: 'place_order'
     get 'past_orders' => :past_orders, as: 'past_orders'

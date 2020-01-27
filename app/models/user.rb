@@ -64,6 +64,19 @@ class User < ApplicationRecord
     UserMailer.delay.password_reset(id)
   end
 
+  def already_bought?(deal_id)
+    line_items.exists?(deal_id: deal_id)
+  end
+
+  def delete_cart
+    orders.cart.destroy_all
+  end
+
+  def eligible_additional_discount
+    total_delivered_orders = orders.delivered.count
+    total_delivered_orders < 5 ? total_delivered_orders : 5
+  end
+
   def is_admin?
     role.name == "admin"
   end

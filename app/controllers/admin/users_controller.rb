@@ -31,6 +31,9 @@ module Admin
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+      unless @user
+        redirect_to admin_deals_path, alert: 'User doesnt exist'
+      end
     end
 
     private def user_params

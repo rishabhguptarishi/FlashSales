@@ -2,21 +2,22 @@ class UpdateDeal {
   constructor(dealRow){
     this.dealRow = $(dealRow);
     this.dealId = dealRow.dataset.options;
+    this.url = dealRow.dataset.url
     this.quantity = 0;
+    this.getDealQuantity = this.getDealQuantity.bind(this);
   }
 
   init() {
-    setInterval(this.getDealQuantity(this), 5000);
+    setInterval(this.getDealQuantity, 5000);
   }
 
-  getDealQuantity(deal) {
-    deal_id = deal.dealId
+  getDealQuantity() {
     $.ajax({
       type: "GET",
-      url: "/get_deal_quantity?id=" + deal_id,
+      url: this.url,
       success: function(result){
-        if (result['live'] && !result['quantity']){
-          deal.dealRow.text('Sold Out')
+        if (result['live'] && !result['quantity_available']){
+          this.dealRow.text('Sold Out')
         }
       },
       error: function(result){alert("Some Error Occurred")}

@@ -30,15 +30,13 @@
             <%= number_to_currency(deal.discounted_price) %>
           </p>
         </td>
-        <td data-options="<%= deal.id %>">
+        <td data-options="<%= deal.id %>" data-url = "<%= get_availability_path(id: deal.id) %>">
             <p><% if !deal.live %>
               Old Deal
             <% elsif !deal.quantity_available? %>
               Sold Out
-            <% elsif session[:order_id] %>
-              <%= link_to 'Buy', order_path(deal), method: :put %>
             <% else %>
-              <%= link_to 'Buy', orders_path(id: deal), method: :post %>
+              <%= link_to 'Buy', add_line_item_path(id: deal), method: :put %>
             <% end %></p>
         </td>
       </tr>

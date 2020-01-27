@@ -1,28 +1,17 @@
 class OrdersController < ApplicationController
   skip_before_action :set_order, only: [:past_orders]
-  before_action :check_if_already_bought, only: [:create, :update]
+  before_action :check_if_can_be_bought, only: [:create, :update, :add_line_item]
   before_action :ensure_cart_exist, only: [:checkout]
+  after_action :set_order_session, only: [:add_line_item]
 
   def show
   end
 
-  def create
-    @order.add_line_item(params[:id])
+  def add_line_item
+    @order.add_line_item(@deal_item)
     respond_to do |format|
       if @order.save
-        session[:order_id] = @order.id
         format.html { redirect_to root_path, notice: 'order created' }
-      else
-        format.html { render :new }
-      end
-    end
-  end
-
-  def update
-    @order.add_line_item(params[:id])
-    respond_to do |format|
-      if @order.save
-        format.html { redirect_to root_path, notice: 'order updated' }
       else
         format.html { render :new }
       end
@@ -50,26 +39,32 @@ class OrdersController < ApplicationController
   end
 
   def past_orders
-    @orders = current_user.orders.past_orders.page(params[:page])
+    @orders = current_user.orders.past.page(params[:page])
   end
 
 
-  private def check_if_already_bought
-    if current_user.line_items.exists?(deal_id: params[:id])
+  private def check_if_can_be_bought
+    deal = Deal.find(params[:id])
+    if !deal
+      redirect_to root_path, alert: 'Invalid Deal'
+    elsif current_user.already_bought?(deal)
       redirect_to root_path, alert: 'You already bought this deal'
-    end
-  end
-
-  private def validate_address_present
-    if params[:order][:address].blank?
-      flash[:alert] = 'Please provide address'
-      render 'checkout'
+    elsif deal.quantity_available?
+      @deal_item = deal.book!
+    else
+      redirect_to root_path, alert: 'Sorry deal is sold out'
     end
   end
 
   private def ensure_cart_exist
     unless session[:order_id]
       redirect_to root_path, alert: 'Please add some items to order'
+    end
+  end
+
+  private def set_order_session
+    unless session[:order_id]
+      session[:order_id] = @order.id
     end
   end
 
