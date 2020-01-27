@@ -39,6 +39,7 @@ class Deal < ApplicationRecord
 
   after_save :set_publishabhle!
   before_create :create_deal_items
+  #FIXME_AB: we need to add few conditions when to adjust these deal_items. based on deal's state
   before_update :adjust_deal_items
 
   scope :publishable, -> { where(publishable: true) }
@@ -86,6 +87,7 @@ class Deal < ApplicationRecord
   end
 
   def adjust_deal_items
+    #FIXME_AB: reduce one if by "return unless quantity_changed?" as first line
     if quantity_changed?
       current_count = deal_items.count
       if quantity > current_count

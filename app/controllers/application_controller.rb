@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
 
   private def set_order
     if session[:order_id]
+      #FIXME_AB: for safety we should check current_user.order.find_by
       @order = Order.find_by(id: session[:order_id])
     end
     unless @order

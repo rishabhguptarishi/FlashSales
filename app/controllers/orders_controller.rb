@@ -26,8 +26,12 @@ class OrdersController < ApplicationController
     if params[:order][:address].blank?
       @order.build_address(address_params)
     else
+      #FIXME_AB: you should first ensure that address exists and belongs to the user. current_user.addresses.find.
       @order.address = Address.find(params[:order][:address]).dup
     end
+
+    #FIXME_AB: This whole address thing can be extract in a before action, this before action should ensure to set order's address
+
     total_amount = @order.total_amount
     respond_to do |format|
       if @order.update(order_placed_at: Time.current, total_price: total_amount)
@@ -44,6 +48,7 @@ class OrdersController < ApplicationController
 
 
   private def check_if_can_be_bought
+    #FIXME_AB: only live deals can be purchased so Deal.live.find
     deal = Deal.find(params[:id])
     if !deal
       redirect_to root_path, alert: 'Invalid Deal'
@@ -54,6 +59,7 @@ class OrdersController < ApplicationController
     else
       redirect_to root_path, alert: 'Sorry deal is sold out'
     end
+    #FIXME_AB: please try to refactor this action
   end
 
   private def ensure_cart_exist

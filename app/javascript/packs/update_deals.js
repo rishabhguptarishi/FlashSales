@@ -20,6 +20,7 @@ class UpdateDeal {
           this.dealRow.text('Sold Out')
         }
       },
+      // FIXME_AB: since this is a background ajax request and user did not initiate this ajax call, instead of alert use console.log
       error: function(result){alert("Some Error Occurred")}
     });
   }

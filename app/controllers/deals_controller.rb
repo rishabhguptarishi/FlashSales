@@ -8,6 +8,7 @@ class DealsController < ApplicationController
 
   def get_availability
     deal = Deal.published.find(params[:id])
+    #FIXME_AB: what if the deal not found in the above statement?
     respond_to do |format|
       format.json { render json: {quantity_available: deal.quantity_available?, live: deal.live} }
     end

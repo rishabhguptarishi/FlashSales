@@ -26,8 +26,12 @@ class User < ApplicationRecord
   validates :password, length: {within: 6..30}, if: -> {password.present?}
 
   belongs_to :role
+
+  #FIXME_AB: dependent restrict with error
   has_many :orders
   has_many :line_items, through: :orders
+
+  #FIXME_AB: should be a direct association with addresses.
   has_many :addresses, ->{ order(created_at: :desc) }, through: :orders
 
   before_create -> { generate_token(:verification_token) }, unless: :is_admin?
