@@ -1,6 +1,6 @@
 class DealsController < ApplicationController
   def index
-    @deals = Deal.live_deals.includes(:images)
+    @deals = Deal.live.includes(:images)
     unless @deals.any?
       @deals = Deal.past_deals.take(ENV['max_of_deals_for_a_day'].to_i)
     end

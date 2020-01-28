@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   skip_before_action :set_order, only: [:past_orders]
-  before_action :check_if_can_be_bought, only: [:create, :update, :add_line_item]
+  before_action :check_if_can_be_bought, only: [:add_line_item]
   before_action :ensure_cart_exist, only: [:checkout]
   before_action :set_order_address, only: [:place_order]
   after_action :set_order_session, only: [:add_line_item]
@@ -10,12 +10,10 @@ class OrdersController < ApplicationController
 
   def add_line_item
     @order.add_line_item(@deal_item)
-    respond_to do |format|
-      if @order.save
-        format.html { redirect_to root_path, notice: 'order created' }
-      else
-        format.html { render :new }
-      end
+    if @order.save!
+      redirect_to root_path, notice: 'order created'
+    else
+      redirect_to root_path, alert: 'could not create order try again'
     end
   end
 
@@ -40,25 +38,30 @@ class OrdersController < ApplicationController
 
   private def set_order_address
     if params[:order][:address].blank?
-      @order.build_address(address_params)
+      @order.set_address(address_params, current_user)
     else
-      #FIXME_AB: you should first ensure that address exists and belongs to the user. current_user.addresses.find.
-      @order.address = Address.find(params[:order][:address]).dup
+      @order.address = current_user.addresses.find(params[:order][:address])
     end
   end
 
   private def check_if_can_be_bought
     deal = Deal.live.find(params[:id])
-    if !deal
-      redirect_to root_path, alert: 'Invalid Deal'
-    elsif current_user.already_bought?(deal)
-      redirect_to root_path, alert: 'You already bought this deal'
-    elsif deal.quantity_available?
-      @deal_item = deal.book!
+    alert = get_alert(deal)
+    if alert
+      redirect_to root_path, alert: alert
     else
-      redirect_to root_path, alert: 'Sorry deal is sold out'
+      @deal_item = deal.book!
     end
-    #FIXME_AB: please try to refactor this action
+  end
+
+  private def get_alert(deal)
+    if !deal
+      'Invalid Deal'
+    elsif current_user.already_bought?(deal.id)
+      'You already bought this deal'
+    elsif !deal.quantity_available?
+      'Sorry deal is sold out'
+    end
   end
 
   private def ensure_cart_exist

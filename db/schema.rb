@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_26_185914) do
+ActiveRecord::Schema.define(version: 2020_01_28_090339) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
     t.string "name", null: false
@@ -39,10 +39,10 @@ ActiveRecord::Schema.define(version: 2020_01_26_185914) do
     t.string "country"
     t.string "pincode"
     t.string "line1"
-    t.bigint "order_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["order_id"], name: "index_addresses_on_order_id"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_addresses_on_user_id"
   end
 
   create_table "deal_items", options: "ENGINE=InnoDB DEFAULT CHARSET=latin1", force: :cascade do |t|
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 2020_01_26_185914) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "deal_item_id", null: false
     t.bigint "deal_id", null: false
+    t.decimal "price", precision: 14, scale: 2
     t.index ["deal_id"], name: "index_line_items_on_deal_id"
     t.index ["deal_item_id"], name: "index_line_items_on_deal_item_id"
     t.index ["order_id"], name: "index_line_items_on_order_id"
@@ -107,6 +108,8 @@ ActiveRecord::Schema.define(version: 2020_01_26_185914) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "total_price", default: 0
+    t.bigint "address_id"
+    t.index ["address_id"], name: "index_orders_on_address_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -138,5 +141,4 @@ ActiveRecord::Schema.define(version: 2020_01_26_185914) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "addresses", "orders"
 end

@@ -24,8 +24,8 @@
     </table>
   <% end %>
 
-  <%= form.collection_radio_buttons(:address, current_user.addresses, :id, :presenter.full_address ) do |b| %>
-    <div class="card border-info mb-3 card-body" style="max-width: 20rem;">
+  <%= form.collection_radio_buttons(:address, current_user.addresses, :id, :full_address ) do |b| %>
+    <div class="card border-info mb-3 card-body">
       <%= b.radio_button %>
       <%= b.label %>
     </div>

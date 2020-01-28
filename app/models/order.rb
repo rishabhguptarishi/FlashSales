@@ -13,13 +13,11 @@ class Order < ApplicationRecord
     state :cancelled
   end
 
-  validates_associated :address
-
   has_many :line_items, dependent: :destroy
   has_many :deal_items, through: :line_items
-  has_one :address
+  belongs_to :address, required: false
   belongs_to :user
-  accepts_nested_attributes_for :address, allow_destroy: true
+  accepts_nested_attributes_for :address
 
   before_destroy :destroy_order_associations, prepend: true
 
@@ -57,21 +55,20 @@ class Order < ApplicationRecord
     deal_items.update_all(status: 'available')
   end
 
+  def set_address(address_params, current_user)
+    build_address(address_params)
+    address.user = current_user
+  end
+
   def add_line_item(deal_item)
     line_item = self.line_items.build
     line_item.deal_item = deal_item
     line_item.deal = deal_item.deal
+    line_item.set_price
   end
 
   def total_amount
-    total_price = 0
-    #FIXME_AB: we should save the discounted price of item in the line_items table itself. other we ll need to recalculate this everytime and apply user's discount. And since user's eligible discount is variable, total will vary with time
-    #FIXME_AB: if we do the above we can just use .sum method line_items.sum(&:discounted_price) or something similar
-    line_items.each do |item|
-      total_price += item.deal.discounted_price
-    end
-    total_price - (total_price * user.eligible_additional_discount/100)
-    #FIXME_AB: Also I think we should calculate the total amount and save it with the order itself. That way can help if we ever run reports on orders table.
+    line_items.sum(&:price)
   end
 
   private def destroy_order_associations

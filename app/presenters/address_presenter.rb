@@ -12,6 +12,6 @@ class AddressPresenter < ApplicationPresenter
   # end
 
   def full_address
-    line1 + city + state + country + pincode
+  "#{line1} #{city} #{state} #{country} #{pincode}"
   end
 end

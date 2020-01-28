@@ -30,15 +30,13 @@ class User < ApplicationRecord
   has_many :orders, dependent: :restrict_with_error
   has_many :line_items, through: :orders
 
-  #FIXME_AB: should be a direct association with addresses.
-  has_many :addresses, ->{ order(created_at: :desc) }, through: :orders
+  has_many :addresses
 
   before_create -> { generate_token(:verification_token) }, unless: :is_admin?
   after_create_commit :send_verification_mail, unless: :is_admin?
 
   scope :verified,    -> { where(verified: true) }
   scope :publishable, -> { where(publishable: true) }
-  scope :live_deals,  -> { where(live: true) }
   scope :all_except,  -> (user) { where.not(id: user.id) }
 
   has_secure_password

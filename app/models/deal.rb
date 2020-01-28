@@ -27,6 +27,7 @@ class Deal < ApplicationRecord
   validates :publish_at, presence: true
   validates_with PublishDateValidator
   validates :quantity, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0}
+  validates_with QuantityValidator
   validates_with DealPublishedValidator
 
   has_many :images, as: :imageable, dependent: :destroy
@@ -38,11 +39,10 @@ class Deal < ApplicationRecord
 
   after_save :set_publishabhle!
   before_create :create_deal_items
-  #FIXME_AB: we need to add few conditions when to adjust these deal_items. based on deal's state
   before_update :adjust_deal_items
 
   scope :publishable, -> { where(publishable: true) }
-  scope :live_deals, -> { where(live: true) }
+  scope :live, -> { where(live: true) }
   scope :scheduled_to_go_live_today, ->(current_time = Time.current) { where(publish_at: current_time.at_beginning_of_day..current_time.at_end_of_day) }
   scope :past_deals, -> { where('publish_at < ?', Time.current.at_beginning_of_day).order(publish_at: :desc) }
   scope :published, -> { where(published: true) }
@@ -65,7 +65,7 @@ class Deal < ApplicationRecord
   end
 
   def total_revenue
-    orders.sum(:total_price)
+    orders.sum(&:total_price)
   end
 
   def cover_image
@@ -78,8 +78,6 @@ class Deal < ApplicationRecord
   end
 
   def create_deal_items
-    #FIXME_AB: once deal is published or with in 24 hours, qty can not be changed
-    #FIXME_AB: you need to adjust qtyis, they can increase or decrease. One way is to delete all deal_items and create fresh. if we do this we also need to make sure that no deal item is locked
     quantity.times do
       deal_items.build
     end

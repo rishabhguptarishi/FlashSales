@@ -1,5 +1,5 @@
-// FIXME_AB: $('#publishable_check').closest('form') is done twice, cache it in a variable
-$('#publishable_check').closest('form').on('ajax:success', function(event){
+var form = $('#publishable_check').closest('form')
+form.on('ajax:success', function(event){
   if(event.detail[0]){
     alert("This deal is publishable and can be published");
   }
@@ -8,6 +8,6 @@ $('#publishable_check').closest('form').on('ajax:success', function(event){
   }
 });
 
-$('#publishable_check').closest('form').on('ajax:error', function(response){
+form.on('ajax:error', function(response){
   alert("Unable to check publishability right now. Please try again later")
 });
