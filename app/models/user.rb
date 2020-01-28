@@ -27,8 +27,7 @@ class User < ApplicationRecord
 
   belongs_to :role
 
-  #FIXME_AB: dependent restrict with error
-  has_many :orders
+  has_many :orders, dependent: :restrict_with_error
   has_many :line_items, through: :orders
 
   #FIXME_AB: should be a direct association with addresses.

@@ -10,20 +10,17 @@ module Admin
     end
 
     def mark_delivered!
-      #FIXME_AB: we also need to notify user, use workflow callback
       @order.deliver!
     end
 
     def mark_cancelled!
-      #FIXME_AB: we also need to notify user, use workflow callback
       @order.cancel!
     end
 
     private def set_order
       @order = Order.find(params[:id])
       unless @order
-        #FIXME_AB: redirec to orders page
-        redirect_to admin_deals_path, alert: 'This order doesnt exist'
+        redirect_to admin_orders_path, alert: 'This order doesnt exist'
       end
     end
   end

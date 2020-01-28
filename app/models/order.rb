@@ -6,8 +6,6 @@ class Order < ApplicationRecord
     end
 
     state :placed do
-      #FIXME_AB: just wondering why do we need to move placed order to new state. If we don't need then lets remove this
-      event :cart, transitions_to: :new
       event :cancel, transitions_to: :cancelled
       event :deliver, transitions_to: :delivered
     end
@@ -19,13 +17,11 @@ class Order < ApplicationRecord
 
   has_many :line_items, dependent: :destroy
   has_many :deal_items, through: :line_items
-  #FIXME_AB: we should't not do dependent destroy with address, just nullify,
-  has_one :address, dependent: :destroy
+  has_one :address
   belongs_to :user
   accepts_nested_attributes_for :address, allow_destroy: true
 
-  #FIXME_AB: should we use prepend true ? else line items will be deleted first and then we won't find deal_items through line_items
-  before_destroy :destroy_order_associations
+  before_destroy :destroy_order_associations, prepend: true
 
   #FIXME_AB: Lets discuss why do we need 'past' scope
   scope :past,      -> { where('order_placed_at <= ?', Time.current) }
@@ -39,17 +35,22 @@ class Order < ApplicationRecord
     if search
       user = User.find_by(email: search)
       if user
-        user.orders
-      else
-        Order.all
+        return user.orders
       end
-    else
-      Order.all
     end
+    Order.all
   end
 
   def cancel
     release_blocked_deals
+  end
+
+  def deliver
+    OrdersMailer.delay.deliver(id)
+  end
+
+  def cancel
+    OrdersMailer.delay.cancel(id)
   end
 
   def release_blocked_deals
@@ -73,8 +74,7 @@ class Order < ApplicationRecord
     #FIXME_AB: Also I think we should calculate the total amount and save it with the order itself. That way can help if we ever run reports on orders table.
   end
 
-  #FIXME_AB: Since this is a callback method, I think we should make it private
-  def destroy_order_associations
+  private def destroy_order_associations
     if current_state == 'new'
       release_blocked_deals
     else

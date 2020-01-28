@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
   skip_before_action :set_order, only: [:past_orders]
   before_action :check_if_can_be_bought, only: [:create, :update, :add_line_item]
   before_action :ensure_cart_exist, only: [:checkout]
+  before_action :set_order_address, only: [:place_order]
   after_action :set_order_session, only: [:add_line_item]
 
   def show
@@ -23,15 +24,6 @@ class OrdersController < ApplicationController
   end
 
   def place_order
-    if params[:order][:address].blank?
-      @order.build_address(address_params)
-    else
-      #FIXME_AB: you should first ensure that address exists and belongs to the user. current_user.addresses.find.
-      @order.address = Address.find(params[:order][:address]).dup
-    end
-
-    #FIXME_AB: This whole address thing can be extract in a before action, this before action should ensure to set order's address
-
     total_amount = @order.total_amount
     respond_to do |format|
       if @order.update(order_placed_at: Time.current, total_price: total_amount)
@@ -46,10 +38,17 @@ class OrdersController < ApplicationController
     @orders = current_user.orders.past.page(params[:page])
   end
 
+  private def set_order_address
+    if params[:order][:address].blank?
+      @order.build_address(address_params)
+    else
+      #FIXME_AB: you should first ensure that address exists and belongs to the user. current_user.addresses.find.
+      @order.address = Address.find(params[:order][:address]).dup
+    end
+  end
 
   private def check_if_can_be_bought
-    #FIXME_AB: only live deals can be purchased so Deal.live.find
-    deal = Deal.find(params[:id])
+    deal = Deal.live.find(params[:id])
     if !deal
       redirect_to root_path, alert: 'Invalid Deal'
     elsif current_user.already_bought?(deal)

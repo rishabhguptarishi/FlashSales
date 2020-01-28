@@ -955,6 +955,8 @@ GEM
     aws-sigv2 (1.0.1)
     aws-sigv4 (1.1.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
+    basic_presenter (0.0.4)
+      activesupport (>= 3.0)
     bcrypt (3.1.13)
     bindex (0.8.1)
     bootsnap (1.4.5)
@@ -1164,6 +1166,7 @@ PLATFORMS
 DEPENDENCIES
   annotate (>= 3.0.3)
   aws-sdk (~> 3.0, >= 3.0.1)
+  basic_presenter
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)
   byebug

@@ -16,7 +16,6 @@
 #  live             :boolean          default(FALSE)
 #
 
-#FIXME_AB: set default values for price, discounted_price, quantity
 
 class Deal < ApplicationRecord
   validates :title, presence: true, uniqueness: { case_sensitive: false}
@@ -87,16 +86,14 @@ class Deal < ApplicationRecord
   end
 
   def adjust_deal_items
-    #FIXME_AB: reduce one if by "return unless quantity_changed?" as first line
-    if quantity_changed?
-      current_count = deal_items.count
-      if quantity > current_count
-        (quantity - current_count).times do
-          deal_items.build
-        end
-      else
-        deal_items.where(status: 'available').take(current_count - quantity).delete_all
+    return unless quantity_changed?
+    current_count = deal_items.count
+    if quantity > current_count
+      (quantity - current_count).times do
+        deal_items.build
       end
+    else
+      deal_items.where(status: 'available').take(current_count - quantity).delete_all
     end
   end
 

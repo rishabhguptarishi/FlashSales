@@ -44,15 +44,13 @@ class ChargesController < ApplicationController
     charge = Stripe::Charge.create(
       customer: customer.id,
       amount: (@order.total_amount * 100).to_i,
-      #FIXME_AB: Lets make description dynamic. Should include deals ids that user purchased
-      description: 'Rails test payment',
+      description: @order.line_items.map(&:deal_id).join,
       currency: 'inr'
     )
     redirect_to root_path, notice: 'Order has been placed successfully'
   end
 
-  #FIXME_AB: Should this be private method
-  def catch_exception(exception)
+  private def catch_exception(exception)
     flash[:error] = exception.message
     @order.update(order_placed_at: nil)
     @order.address.destroy

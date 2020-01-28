@@ -37,6 +37,8 @@ gem 'workflow-activerecord', '~> 4.1', '>= 4.1.2'
 
 gem 'stripe', '~> 1.57', '>= 1.57.1'
 
+gem 'basic_presenter'
+
 
 #gem 'bullet', '~> 5.7', '>= 5.7.5'
 

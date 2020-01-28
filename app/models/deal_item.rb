@@ -5,5 +5,5 @@ class DealItem < ApplicationRecord
   #FIXME_AB: add validation on deal status should be in predefined states
 
     scope :available, -> { where(status: 'available') }
-    #FIXME_AB: create another scope for bloked
+    scope :booked, -> { where(status: 'booked') }
 end
