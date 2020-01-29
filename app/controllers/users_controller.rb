@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show]
-  skip_before_action :authorize, :set_order except: [:show]
+  skip_before_action :authorize, :set_order, except: [:show]
   before_action :ensure_token_exists, only: [:confirm_email]
 
 
