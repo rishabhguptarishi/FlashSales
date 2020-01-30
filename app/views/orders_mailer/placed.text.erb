@@ -5,5 +5,5 @@ Your Order has been placed
   <%= number_to_currency(line_item.deal.price) %>
   <%= number_to_currency(line_item.deal.discounted_price) %>
 <% end %>
-Amount: <%= @order.total_amount %>
-Address: <%= @order.address %>
+Amount: <%= @order.total_price %>
+Address: <%= @order.try(:address).try(:full_address) %>

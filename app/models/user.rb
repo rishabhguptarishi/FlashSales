@@ -32,12 +32,15 @@ class User < ApplicationRecord
 
   has_many :addresses
 
-  before_create -> { generate_token(:verification_token) }, unless: :is_admin?
-  after_create_commit :send_verification_mail, unless: :is_admin?
+  with_options unless: :is_admin? do |user|
+    before_create -> { generate_token(:verification_token) }
+    after_create_commit :send_verification_mail
+  end
 
   scope :verified,    -> { where(verified: true) }
   scope :publishable, -> { where(publishable: true) }
   scope :all_except,  -> (user) { where.not(id: user.id) }
+  scope :top_spending_customers, -> { joins(:orders).group(:id).order('SUM(orders.total_price) desc') }
 
   has_secure_password
 
@@ -46,7 +49,17 @@ class User < ApplicationRecord
     self.verification_token = nil
     self.verification_token_generated_at = nil
     self.verified_at = Time.current
+    generate_token(:authentication_token)
     save!(validate: false)
+  end
+
+  def update_user_password!
+    self.password = params[:user][:password]
+    self.password_confirmation = params[:user][:password_confirmation]
+    self.password_reset_token = nil
+    self.password_reset_token_generated_at = nil
+    generate_token(:authentication_token)
+    save
   end
 
   def generate_token(column_name)

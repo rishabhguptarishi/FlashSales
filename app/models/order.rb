@@ -27,28 +27,25 @@ class Order < ApplicationRecord
   scope :delivered, -> { where(workflow_state: 'delivered') }
   scope :cancelled, -> { where(workflow_state: 'cancelled') }
   scope :cart,      -> { where(workflow_state: 'new') }
+  scope :not_carts, -> { where.not(workflow_state: 'new') }
 
   #FIXME_AB: lets discuss this, we may not need this.
   def self.search(search)
     if search
-      user = User.find_by(email: search)
-      if user
-        return user.orders
-      end
+      User.find_by(email: search).try(:orders)
+    else
+      #FIXME_AB: should be paginated
+      Order.all
     end
-    Order.all
+  end
+
+  def deliver
+    OrdersMailer.delay.delivered(id)
   end
 
   def cancel
     release_blocked_deals
-  end
-
-  def deliver
-    OrdersMailer.delay.deliver(id)
-  end
-
-  def cancel
-    OrdersMailer.delay.cancel(id)
+    OrdersMailer.delay.cancelled(id)
   end
 
   def release_blocked_deals

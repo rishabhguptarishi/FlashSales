@@ -23,7 +23,7 @@ class PasswordResetController < ApplicationController
   end
 
   def update
-    if @user.update(password: params[:user][:password], password_confirmation: params[:user][:password_confirmation], password_reset_token: nil, password_reset_token_generated_at: nil)
+    if @user.update_user_password!
       redirect_to login_url, notice: "Password has been reset!"
     else
       render :edit

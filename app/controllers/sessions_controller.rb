@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
     user = User.verified.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
+      cookies.signed[:authenticate_token] = user.authentication_token
       if params[:remember_me] && user.generate_token!(:remember_me_token)
         cookies.signed.permanent[:remember_me_token] = user.remember_me_token
       end

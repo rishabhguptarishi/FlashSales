@@ -1,0 +1,27 @@
+<h1>Users</h1>
+<% if @users.any? %>
+  <%= paginate @users %>
+  <table class="table table-hover">
+    <thead class="table-secondary">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Verified</th>
+        <th>Total Expenditure</th>
+      </tr>
+    </thead>
+
+    <tbody class="table-info">
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.verified %></td>
+          <td> <%= number_to_currency user.orders.sum(&:total_price) %> </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <h4>There are no users</h4>
+<% end %>

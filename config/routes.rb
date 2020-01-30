@@ -70,8 +70,8 @@ Rails.application.routes.draw do
     end
     resources :users
     resources :orders do
-      get 'cancel' => 'orders#cancelled', on: :member
-      get 'deliver' => 'orders#delivered', on: :member
+      put 'cancel' => 'orders#mark_cancelled!', on: :member
+      put 'deliver' => 'orders#mark_delivered!', on: :member
     end
     controller :reports do
       get 'maximum_potential' => :maximum_potential, as: "maximum_potential"
@@ -92,6 +92,12 @@ Rails.application.routes.draw do
     get 'past_orders' => :past_orders, as: 'past_orders'
   end
   resources :charges
+
+  controller :api do
+    get 'api/live_deals' => :live_deals
+    get 'api/past_deals' => :past_deals
+    get 'api/myorders' => :myorders, params: :token
+  end
 
   root 'deals#index', via: :all
   get '*path' => redirect('/')

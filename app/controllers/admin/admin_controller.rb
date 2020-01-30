@@ -3,6 +3,7 @@ module Admin
     layout "admin"
 
     before_action :authorize_admin
+    skip_before_action :set_order
 
     def authorize_admin
       unless current_user.is_admin?

@@ -24,6 +24,6 @@
   </table>
 <% end %>
 <label class="amount">
-  <span>Amount: <%= order.total_amount %></span>
+  <span>Amount: <%= @order.total_price %></span>
 </label>
-<p>Address: <%= @order.address %></p>
+<p>Address: <%= @order.try(:address).try(:full_address) %></p>

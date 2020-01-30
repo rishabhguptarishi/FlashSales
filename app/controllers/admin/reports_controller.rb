@@ -14,7 +14,7 @@ module Admin
     end
 
     def top_spending_customers
-      @users = User.all.page(params[:page])
+      @users = User.top_spending_customers.page(params[:page])
     end
 
   end

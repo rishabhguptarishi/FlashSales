@@ -10,3 +10,4 @@ password_reset_token_expiry_time_in_hours: 2
 default_mailers_from: me@mydomain.com
 cookies_to_be_deleted_on_logout:
   - remember_me_token
+  - authenticate_token

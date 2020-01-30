@@ -14,14 +14,20 @@
       <% @orders.each do |order| %>
       <tr class="table-info">
         <td>
-          <h1><%= order.workflow_status %></h1>
+          <h1><%= order.workflow_state %></h1>
         </td>
         <td>
-          <%= number_to_currency(order.total_amount) %>
+          <%= number_to_currency(order.total_price) %>
         </td>
-        <td><%= order.placed_at %></td>
+        <td><%= order.order_placed_at %></td>
         <td><%= order.user.email %></td>
         <td><%= order.user.name %></td>
+        <td><% if order.placed? %>
+          <ul>
+            <li><%= link_to "Delivered", {action: "mark_delivered!", id: order.id}, method: :put, class: "btn btn-primary" %></li><br>
+            <li><%= link_to "Cancelled", {action: "mark_cancelled!", id: order.id}, method: :put, class: "btn btn-success" %></li>
+          </ul>
+        <% end %></td>
       </tr>
       <% end %>
 
