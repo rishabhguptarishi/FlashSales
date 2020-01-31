@@ -93,10 +93,15 @@ Rails.application.routes.draw do
   end
   resources :charges
 
-  controller :api do
-    get 'api/live_deals' => :live_deals
-    get 'api/past_deals' => :past_deals
-    get 'api/myorders' => :myorders, params: :token
+  namespace :api do
+    controller :deals do
+      get 'live_deals' => :live_deals
+      get 'past_deals' => :past_deals
+    end
+
+    controller :orders do
+      get 'myorders' => :myorders, params: :token
+    end
   end
 
   root 'deals#index', via: :all
