@@ -1,0 +1,14 @@
+en:
+  users:
+    new:
+      legend: "Please fill following details to signup"
+      back: 'Back'
+    form:
+      name: 'Name'
+      email: 'Email Address'
+    create:
+      confirm_email: 'Confirmation link sent to %{email}.'
+      alert: 'Could not save the record, please fix errors below.'
+    confirm_email:
+      notice: "Welcome to the Sample App %{name}! Your email has been confirmed.Please sign in to continue."
+      alert: "Sorry. User does not exist"
