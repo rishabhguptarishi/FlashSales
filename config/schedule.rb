@@ -12,3 +12,7 @@ end
 every 5.minutes do
   rake "order:delete_hanged_orders"
 end
+
+every 60.seconds do
+  RAILS_ENV=development bin/delayed_job start --exit-on-complete
+end

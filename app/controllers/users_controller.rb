@@ -15,9 +15,9 @@ class UsersController < ApplicationController
     @user = Role.customer.users.new(user_params)
     respond_to do |format|
       if @user.save
-        format.html { redirect_to login_url, notice: "Please confirm your email address to continue" }
+        format.html { redirect_to login_url, notice: t('.confirm_email', email: @user.email) }
       else
-        flash.now[:alert] = "Could not save the record, please fix errors below."
+        flash.now[:alert] = t('.alert')
         format.html { render 'new'  }
       end
     end
@@ -26,9 +26,9 @@ class UsersController < ApplicationController
   def confirm_email
     user = User.find_by(verification_token: params[:token])
     if user && user.activate_account!
-      redirect_to login_url, notice: "Welcome to the Sample App! Your email has been confirmed.Please sign in to continue."
+      redirect_to login_url, notice: t('.notice', name: user.name)
     else
-      redirect_to login_url, alert: "Sorry. User does not exist"
+      redirect_to login_url, alert: t('.alert')
     end
   end
 

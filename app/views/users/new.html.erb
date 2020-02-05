@@ -1,6 +1,5 @@
-<h2>Please fill following details to signup</h2>
-
-
-<%= render 'form', user: @user %><br>
-
-<%= link_to 'Back', login_path %>
+<h2><%= t('.legend') %></h2>
+<div class="jumbotron">
+	<%= render 'form', user: @user %><br>
+	<%= link_to t('.back'), login_path %>
+</div>
