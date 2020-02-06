@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: orders
+#
+#  id               :bigint           not null, primary key
+#  user_id          :bigint
+#  order_placed_at  :datetime
+#  workflow_state   :string(255)
+#  line_items_count :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  total_price      :integer          default(0)
+#  address_id       :bigint
+#
+
 class Order < ApplicationRecord
   include WorkflowActiverecord
   workflow do

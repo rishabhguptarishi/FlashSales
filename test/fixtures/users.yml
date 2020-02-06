@@ -17,6 +17,9 @@
 #  updated_at                        :datetime         not null
 #  role_id                           :bigint           default(1), not null
 #  verified_at                       :datetime
+#  stripe_customer_id                :string(255)
+#  authentication_token              :string(255)
+#  authentication_token_generated_at :datetime
 #
 
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

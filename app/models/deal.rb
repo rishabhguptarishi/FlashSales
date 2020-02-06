@@ -4,7 +4,7 @@
 #
 #  id               :bigint           not null, primary key
 #  title            :string(255)
-#  description      :string(255)
+#  description      :text(65535)
 #  price            :decimal(14, 2)   default(0.0)
 #  discounted_price :decimal(14, 2)   default(0.0)
 #  quantity         :integer          default(0)
