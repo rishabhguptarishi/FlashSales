@@ -3,7 +3,7 @@ module Admin
     before_action :set_deal, only: [:show, :edit, :update, :check_publishable]
 
     def index
-      @deals = Deal.all.includes(:images).page(params[:page])
+      @deals = Deal.all.includes(:images).order(created_at: :desc).page(params[:page])
     end
 
     def show
