@@ -27,7 +27,7 @@ gem 'figaro', '~> 1.1', '>= 1.1.1'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.4'
 gem "daemons"
 
-gem 'kaminari', '~> 1.1', '>= 1.1.1'
+gem 'kaminari', '~> 1.2'
 gem 'rails-i18n', '~> 6.0'
 
 gem 'aws-sdk', '~> 3.0', '>= 3.0.1'
